@@ -1,10 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/Kenney Thick.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/bulb-pa.png" type="Texture" id=2]
 [ext_resource path="res://UI/Row.cs" type="Script" id=3]
+[ext_resource path="res://assets/bulb-pa-m.png" type="Texture" id=4]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="CanvasItemMaterial" id=4]
+light_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id=2]
+light_mode = 2
+
+[sub_resource type="DynamicFont" id=3]
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
@@ -16,39 +23,50 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 margin_top = -32.0
 margin_bottom = 32.0
-custom_constants/separation = 10
+size_flags_horizontal = 0
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 description = "Sexy"
+bulbColour = Color( 1, 1, 0, 1 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-margin_right = 76.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 64.0
 margin_bottom = 64.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer"]
+material = SubResource( 4 )
+margin_right = 64.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
 color = Color( 1, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Light" type="TextureRect" parent="."]
+[node name="Light" type="TextureRect" parent="CenterContainer"]
+material = SubResource( 2 )
 margin_right = 64.0
 margin_bottom = 64.0
 texture = ExtResource( 2 )
-stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Light2D" type="Light2D" parent="CenterContainer"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 4 )
+mode = 2
+
 [node name="Description" type="Label" parent="."]
-margin_left = 74.0
+margin_left = 68.0
 margin_top = 15.0
 margin_right = 600.0
 margin_bottom = 49.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Uncontrollable"
 valign = 1
