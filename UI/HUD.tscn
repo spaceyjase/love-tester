@@ -23,8 +23,8 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 14.0
-margin_right = 506.0
+margin_left = 11.0
+margin_right = 509.0
 margin_bottom = 775.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -35,7 +35,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 0.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 64.0
 description = "Uncontrollable"
 
@@ -44,7 +44,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 79.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 143.0
 description = "Hot Stuff"
 
@@ -53,7 +53,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 158.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 222.0
 description = "Passionate"
 
@@ -62,7 +62,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 237.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 301.0
 description = "Burning"
 
@@ -71,7 +71,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 316.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 380.0
 
 [node name="Row6" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
@@ -79,7 +79,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 395.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 459.0
 description = "Wild"
 
@@ -88,7 +88,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 474.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 538.0
 description = "Mild"
 
@@ -97,7 +97,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 553.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 617.0
 description = "Harmless"
 
@@ -106,7 +106,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 632.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 696.0
 description = "Clammy"
 
@@ -115,6 +115,6 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 711.0
-margin_right = 492.0
+margin_right = 498.0
 margin_bottom = 775.0
 description = "Blah"
