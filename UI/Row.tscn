@@ -1,14 +1,17 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/Kenney Thick.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/bulb-pa.png" type="Texture" id=2]
 [ext_resource path="res://UI/Row.cs" type="Script" id=3]
 [ext_resource path="res://assets/bulb-pa-m.png" type="Texture" id=4]
+[ext_resource path="res://assets/spot.png" type="Texture" id=5]
+[ext_resource path="res://assets/light.png" type="Texture" id=6]
 
 [sub_resource type="CanvasItemMaterial" id=4]
 light_mode = 2
 
 [sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
 light_mode = 2
 
 [sub_resource type="DynamicFont" id=3]
@@ -34,18 +37,20 @@ bulbColour = Color( 1, 1, 0, 1 )
 [node name="CenterContainer" type="CenterContainer" parent="."]
 margin_right = 64.0
 margin_bottom = 64.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="LightMask" type="Light2D" parent="CenterContainer"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 4 )
+mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="CenterContainer"]
 material = SubResource( 4 )
 margin_right = 64.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-color = Color( 1, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color( 1, 0, 0, 0.643137 )
 
 [node name="Light" type="TextureRect" parent="CenterContainer"]
 material = SubResource( 2 )
@@ -58,8 +63,14 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="CenterContainer"]
 position = Vector2( 32, 32 )
-texture = ExtResource( 4 )
-mode = 2
+texture = ExtResource( 6 )
+color = Color( 1, 0, 0, 1 )
+range_item_cull_mask = 2
+shadow_color = Color( 1, 1, 1, 0 )
+shadow_item_cull_mask = 2
+
+[node name="Sprite" type="Sprite" parent="CenterContainer/Light2D"]
+texture = ExtResource( 5 )
 
 [node name="Description" type="Label" parent="."]
 margin_left = 68.0
