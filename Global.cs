@@ -8,7 +8,8 @@ public class Global : Node
   private static Global Instance { get; set; }
   private readonly Dictionary<string, Row> rows = new Dictionary<string, Row>();
 
-  private static IEnumerable Rows => Instance.rows.Values;
+  public static IEnumerable<Row> Rows => Instance.rows.Values;
+  //Instance.rows.Values
 
   public override void _Ready()
   {

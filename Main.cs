@@ -8,24 +8,9 @@ namespace LoveTester
   {
     [Export] private float delayTimer = 0.25f;
     [Export] private int pseudoRandomIterations = 2;
-  
-    // TODO: from names in UI - register on ready?
-    private readonly List<string> loveItems = new List<string>
-    {
-      "Uncontrollable",
-      "Hot Stuff",
-      "Passionate",
-      "Burning",
-      "Sexy",
-      "Wild",
-      "Mild",
-      "Harmless",
-      "Clammy",
-      "Blah"
-    };
-  
+    
     private float timer;
-    private List<string> pseudoRandomItems;
+    private List<Row> pseudoRandomItems;
     private int currentItem;
 
     public override void _Ready()
@@ -40,12 +25,12 @@ namespace LoveTester
 
     private void GenerateLoveItems()
     {
-      pseudoRandomItems = new List<string>();
+      pseudoRandomItems = new List<Row>();
       for (var n = 0; n < pseudoRandomIterations; ++n)
       {
-        foreach (var item in loveItems.OrderBy(a => GD.Randi()))
+        foreach (var row in Global.Rows.OrderBy(a => GD.Randi()))
         {
-          pseudoRandomItems.Add(item);
+          pseudoRandomItems.Add(row);
         }
       }
       currentItem = 0;
@@ -67,7 +52,8 @@ namespace LoveTester
       if (timer > 0f) return;
 
       var item = pseudoRandomItems[currentItem++ % pseudoRandomItems.Count];
-      GD.Print(item);
+      // TODO: previous row off, current row on
+      GD.Print(item.Description);
       timer = delayTimer;
     }
   }
