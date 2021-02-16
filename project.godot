@@ -19,6 +19,10 @@ config/name="Love Tester"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Global.cs"
+
 [display]
 
 window/size/width=600
