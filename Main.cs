@@ -31,6 +31,7 @@ namespace LoveTester
       {
         foreach (var row in Global.Rows.OrderBy(a => GD.Randi()))
         {
+          if (pseudoRandomItems.Any() && pseudoRandomItems.Last() == row) continue;
           pseudoRandomItems.Add(row);
         }
       }
