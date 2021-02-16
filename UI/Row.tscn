@@ -41,11 +41,15 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="LightMask" type="Light2D" parent="CenterContainer"]
+light_mask = 2
 position = Vector2( 32, 32 )
 texture = ExtResource( 4 )
 mode = 2
+range_item_cull_mask = 2
+shadow_item_cull_mask = 2
 
 [node name="ColorRect" type="ColorRect" parent="CenterContainer"]
+light_mask = 2
 material = SubResource( 4 )
 margin_right = 64.0
 margin_bottom = 64.0
@@ -65,11 +69,10 @@ __meta__ = {
 position = Vector2( 32, 32 )
 texture = ExtResource( 6 )
 color = Color( 1, 0, 0, 1 )
-range_item_cull_mask = 2
 shadow_color = Color( 1, 1, 1, 0 )
-shadow_item_cull_mask = 2
 
 [node name="Sprite" type="Sprite" parent="CenterContainer/Light2D"]
+position = Vector2( 1, 0 )
 texture = ExtResource( 5 )
 
 [node name="Description" type="Label" parent="."]
@@ -81,3 +84,6 @@ size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
 text = "Uncontrollable"
 valign = 1
+
+[node name="LightTween" type="Tween" parent="."]
+[connection signal="tween_completed" from="LightTween" to="." method="_on_LightTween_tween_completed"]
