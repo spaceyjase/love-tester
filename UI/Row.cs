@@ -30,5 +30,18 @@ public class Row : HBoxContainer
     backgroundColor.a = 164f;
     ColorRect.Color = backgroundColor;
     Light.Color = bulbColour;
+    Light.Visible = false;  // Initial state is off.
+  }
+
+
+  public void Off()
+  {
+    // TODO: tween light
+    Light.Visible = false;
+  }
+
+  public void On()
+  {
+    Light.Visible = true;
   }
 }

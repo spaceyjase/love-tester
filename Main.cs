@@ -12,6 +12,7 @@ namespace LoveTester
     private float timer;
     private List<Row> pseudoRandomItems;
     private int currentItem;
+    private bool reset;
 
     public override void _Ready()
     {
@@ -33,7 +34,7 @@ namespace LoveTester
           pseudoRandomItems.Add(row);
         }
       }
-      currentItem = 0;
+      reset = true;
     }
 
     public override void _Process(float delta)
@@ -51,10 +52,20 @@ namespace LoveTester
       if (!Input.IsActionPressed("ui_select")) return;
       if (timer > 0f) return;
 
-      var item = pseudoRandomItems[currentItem++ % pseudoRandomItems.Count];
-      // TODO: previous row off, current row on
-      GD.Print(item.Description);
+      if (reset)
+      {
+        ResetLights();
+      }
+
+      pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+      pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
       timer = delayTimer;
+    }
+
+    private void ResetLights()
+    {
+      pseudoRandomItems.ForEach(r => r.Off());
+      reset = false;
     }
   }
 }
