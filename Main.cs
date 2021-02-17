@@ -13,6 +13,8 @@ namespace LoveTester
     private List<Row> pseudoRandomItems;
     private int currentItem;
     private bool reset;
+    
+    private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
 
     public override void _Ready()
     {
@@ -22,6 +24,8 @@ namespace LoveTester
     
       // Generate a pseudo random list that's repeated while input is held
       GenerateLoveItems();
+
+      BackgroundParticles.Emitting = false;
     }
 
     private void GenerateLoveItems()
@@ -48,6 +52,7 @@ namespace LoveTester
       {
         // Generate a new list...
         GenerateLoveItems();
+        BackgroundParticles.Emitting = false;
       }
     
       if (!Input.IsActionPressed("ui_select")) return;
@@ -56,6 +61,7 @@ namespace LoveTester
       if (reset)
       {
         ResetLights();
+        BackgroundParticles.Emitting = true;
       }
 
       pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
