@@ -71,7 +71,7 @@ namespace LoveTester
 
     private void ResetLights()
     {
-      pseudoRandomItems.ForEach(r => r.Off());
+      pseudoRandomItems.ForEach(r => r.ImmediateOff());
       reset = false;
     }
   }

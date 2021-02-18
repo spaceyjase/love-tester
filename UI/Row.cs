@@ -47,6 +47,11 @@ public class Row : HBoxContainer
       offDuration, Tween.TransitionType.Sine);
     LightTween.Start();
   }
+  
+  public void ImmediateOff()
+  {
+    Light.Visible = false;
+  }
 
   public void _on_LightTween_tween_completed(object o, NodePath key)
   {
