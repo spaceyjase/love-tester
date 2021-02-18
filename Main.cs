@@ -50,6 +50,9 @@ namespace LoveTester
 
       if (Input.IsActionJustReleased("ui_select"))
       {
+        // Text effect for the stopped row
+        pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
+        
         // Generate a new list...
         GenerateLoveItems();
         BackgroundParticles.Emitting = false;
