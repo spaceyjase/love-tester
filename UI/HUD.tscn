@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/Hot.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Fire.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Sexy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/Passtionate.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Passionate.tscn" type="PackedScene" id=5]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
