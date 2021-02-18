@@ -16,7 +16,6 @@ light_mode = 2
 
 [sub_resource type="DynamicFont" id=3]
 size = 30
-outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
@@ -27,6 +26,7 @@ anchor_bottom = 0.5
 margin_top = -32.0
 margin_bottom = 32.0
 size_flags_horizontal = 0
+custom_constants/separation = 13
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -76,12 +76,13 @@ position = Vector2( 1, 0 )
 texture = ExtResource( 5 )
 
 [node name="Description" type="Label" parent="."]
-margin_left = 68.0
+margin_left = 77.0
 margin_top = 15.0
 margin_right = 600.0
 margin_bottom = 49.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.568627, 0.309804, 0.247059, 1 )
 text = "Uncontrollable"
 valign = 1
 
