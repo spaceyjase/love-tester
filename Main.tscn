@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/love_tester.png" type="Texture" id=2]
 [ext_resource path="res://Main.cs" type="Script" id=3]
+[ext_resource path="res://scenes/ForegroundParticles.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/BackgroundParticles.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.516892, 0.810811 )
+colors = PoolColorArray( 0.125122, 0.47369, 0.78125, 1, 0.71634, 0.0948486, 0.867188, 1, 0.33685, 0.16861, 0.863281, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 600
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -12,10 +22,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BackgroundGradient" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 600.0
+margin_right = 800.0
+margin_bottom = -200.0
+rect_rotation = 90.0
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 1
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackgroundParticles" parent="." instance=ExtResource( 5 )]
+emitting = false
+
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HUD" parent="." instance=ExtResource( 1 )]
 anchor_left = 0.5
@@ -24,3 +55,9 @@ margin_top = 85.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_scale = Vector2( 0.75, 0.75 )
+
+[node name="ForegroundParticles" parent="." instance=ExtResource( 4 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
