@@ -8,6 +8,7 @@ public class Row : HBoxContainer
   [Export] private Color bulbColour;
   [Export] private float endLightEnergy = 0f;
   [Export] private float offDuration = 0.05f;
+  [Export] private PackedScene particles;
 
   public string Description => description;
   
@@ -17,6 +18,7 @@ public class Row : HBoxContainer
   private Tween LightTween => GetNode<Tween>("LightTween");
 
   private float startingLightEnergy;
+  private CPUParticles2D particlesInstance;
 
   public override void _Ready()
   {
@@ -47,6 +49,11 @@ public class Row : HBoxContainer
       offDuration, Tween.TransitionType.Sine);
     LightTween.Start();
   }
+  
+  public void ImmediateOff()
+  {
+    Light.Visible = false;
+  }
 
   public void _on_LightTween_tween_completed(object o, NodePath key)
   {
@@ -57,5 +64,25 @@ public class Row : HBoxContainer
   {
     Light.Energy = startingLightEnergy;
     Light.Visible = true;
+  }
+
+  public void ShowParticles()
+  {
+    if (particles == null) return;
+
+    if (particlesInstance == null)
+    {
+      particlesInstance = particles.Instance() as CPUParticles2D;
+      DescriptionLabel.AddChild(particlesInstance);
+    }
+    
+    particlesInstance.Emitting = true;
+    foreach (var child in particlesInstance.GetChildren())
+    {
+      if (child is CPUParticles2D particles2D)
+      {
+        particles2D.Emitting = true;
+      }
+    }
   }
 }

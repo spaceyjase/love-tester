@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://UI/Row.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/Hot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Fire.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Sexy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Passionate.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Uncontrollable.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/Clammy.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/Smoke.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/Harmless.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/Mild.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/Wild.tscn" type="PackedScene" id=11]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
@@ -23,8 +33,8 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 14.0
-margin_right = 506.0
+margin_left = 9.0
+margin_right = 510.0
 margin_bottom = 775.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -35,96 +45,106 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 0.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 64.0
 description = "Uncontrollable"
 bulbColour = Color( 0.952941, 0.596078, 0.180392, 1 )
+particles = ExtResource( 6 )
 
 [node name="Row2" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 79.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 143.0
 description = "Hot Stuff"
 bulbColour = Color( 0.964706, 0.0235294, 0.0352941, 1 )
+particles = ExtResource( 2 )
 
 [node name="Row3" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 158.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 222.0
 description = "Passionate"
 bulbColour = Color( 0.988235, 0.729412, 0.494118, 1 )
+particles = ExtResource( 5 )
 
 [node name="Row4" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 237.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 301.0
 description = "Burning"
 bulbColour = Color( 0.980392, 0.47451, 0.0156863, 1 )
+particles = ExtResource( 3 )
 
 [node name="Row5" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 316.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 380.0
 bulbColour = Color( 0.905882, 0.8, 0.211765, 1 )
+particles = ExtResource( 4 )
 
 [node name="Row6" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 395.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 459.0
 description = "Wild"
 bulbColour = Color( 0.803922, 0.32549, 0.27451, 1 )
+particles = ExtResource( 11 )
 
 [node name="Row7" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 474.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 538.0
 description = "Mild"
 bulbColour = Color( 0.929412, 0.501961, 0.423529, 1 )
+particles = ExtResource( 10 )
 
 [node name="Row8" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 553.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 617.0
 description = "Harmless"
 bulbColour = Color( 0.101961, 0.309804, 0.607843, 1 )
+particles = ExtResource( 9 )
 
 [node name="Row9" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 632.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 696.0
 description = "Clammy"
 bulbColour = Color( 0.454902, 0.0823529, 0.352941, 1 )
+particles = ExtResource( 7 )
 
 [node name="Row10" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 711.0
-margin_right = 492.0
+margin_right = 501.0
 margin_bottom = 775.0
 description = "Blah"
 bulbColour = Color( 0.0588235, 0.478431, 0.305882, 1 )
+particles = ExtResource( 8 )
