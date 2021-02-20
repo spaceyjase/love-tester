@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/spark_particle2.png" type="Texture" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.359338, 0.548463 )
+colors = PoolColorArray( 0.265625, 0.91394, 1, 1, 0.376471, 0.694118, 1, 0 )
+
+[node name="Particles" type="CPUParticles2D"]
+position = Vector2( 122, 17 )
+emitting = false
+amount = 64
+one_shot = true
+lifetime_randomness = 0.05
+texture = ExtResource( 2 )
+emission_shape = 2
+emission_rect_extents = Vector2( 122, 17 )
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+angular_velocity = 200.0
+tangential_accel = -50.0
+angle = 720.0
+scale_amount = 5.0
+scale_amount_random = 1.0
+color_ramp = SubResource( 1 )
