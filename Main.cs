@@ -8,6 +8,8 @@ namespace LoveTester
   {
     [Export] private float delayTimer = 0.25f;
     [Export] private int pseudoRandomIterations = 2;
+
+    private const string MainButton = "main_button";
     
     private float timer;
     private List<Row> pseudoRandomItems;
@@ -48,7 +50,7 @@ namespace LoveTester
     
       timer -= delta;
 
-      if (Input.IsActionJustReleased("ui_select"))
+      if (Input.IsActionJustReleased(MainButton))
       {
         // Text effect for the stopped row
         pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
@@ -58,7 +60,7 @@ namespace LoveTester
         BackgroundParticles.Emitting = false;
       }
     
-      if (!Input.IsActionPressed("ui_select")) return;
+      if (!Input.IsActionPressed(MainButton)) return;
       if (timer > 0f) return;
 
       if (reset)
