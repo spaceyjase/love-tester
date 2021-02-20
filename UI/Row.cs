@@ -75,6 +75,14 @@ public class Row : HBoxContainer
       particlesInstance = particles.Instance() as CPUParticles2D;
       DescriptionLabel.AddChild(particlesInstance);
     }
+    
     particlesInstance.Emitting = true;
+    foreach (var child in particlesInstance.GetChildren())
+    {
+      if (child is CPUParticles2D particles2D)
+      {
+        particles2D.Emitting = true;
+      }
+    }
   }
 }
