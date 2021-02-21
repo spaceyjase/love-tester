@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/love_tester.png" type="Texture" id=2]
@@ -13,6 +13,22 @@ colors = PoolColorArray( 0.125122, 0.47369, 0.78125, 1, 0.71634, 0.0948486, 0.86
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
 width = 600
+
+[sub_resource type="Animation" id=3]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeInColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -38,6 +54,7 @@ __meta__ = {
 }
 
 [node name="BackgroundParticles" parent="." instance=ExtResource( 5 )]
+position = Vector2( 300, 400 )
 emitting = false
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -57,7 +74,22 @@ grow_vertical = 2
 rect_scale = Vector2( 0.75, 0.75 )
 
 [node name="ForegroundParticles" parent="." instance=ExtResource( 4 )]
+position = Vector2( 300, 400 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
+
+[node name="FadeInColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "fade_in"
+anims/fade_in = SubResource( 3 )
