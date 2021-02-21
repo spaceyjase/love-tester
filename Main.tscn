@@ -15,7 +15,6 @@ gradient = SubResource( 1 )
 width = 600
 
 [sub_resource type="Animation" id=3]
-resource_name = "fade_in"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeInColorRect:color")
