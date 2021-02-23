@@ -17,6 +17,7 @@ namespace LoveTester
     private bool reset;
     
     private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
+    private AnimationPlayer ButtonAnimation => GetNode<AnimationPlayer>("ButtonAnimationPlayer");
 
     public override void _Ready()
     {
@@ -52,6 +53,7 @@ namespace LoveTester
 
       if (Input.IsActionJustReleased(MainButton))
       {
+        ButtonAnimation.Play("idle");
         // Text effect for the stopped row
         pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
         
@@ -68,6 +70,8 @@ namespace LoveTester
         ResetLights();
         BackgroundParticles.Emitting = true;
       }
+      
+      ButtonAnimation.Play("pressed");
 
       pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
       pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
