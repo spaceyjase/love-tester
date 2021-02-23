@@ -18,6 +18,7 @@ namespace LoveTester
     
     private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
     private AnimationPlayer ButtonAnimation => GetNode<AnimationPlayer>("ButtonAnimationPlayer");
+    private Camera2D Camera => GetNode<Camera2D>("Camera2D");
 
     public override void _Ready()
     {
@@ -67,14 +68,15 @@ namespace LoveTester
 
       if (reset)
       {
+        ButtonAnimation.Play("pressed");
         ResetLights();
         BackgroundParticles.Emitting = true;
       }
       
-      ButtonAnimation.Play("pressed");
-
+      Camera.Call("add_stress", 0.5f);
       pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
       pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+      
       timer = delayTimer;
     }
 
