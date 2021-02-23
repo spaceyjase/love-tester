@@ -15,7 +15,9 @@ namespace LoveTester
     private List<Row> pseudoRandomItems;
     private int currentItem;
     private bool reset;
-    
+    private bool actionTouchRelease;
+    private bool touched;
+
     private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
     private AnimationPlayer ButtonAnimation => GetNode<AnimationPlayer>("ButtonAnimationPlayer");
     private Camera2D Camera => GetNode<Camera2D>("Camera2D");
@@ -52,8 +54,10 @@ namespace LoveTester
     
       timer -= delta;
 
-      if (Input.IsActionJustReleased(MainButton))
+      if (Input.IsActionJustReleased(MainButton) || actionTouchRelease)
       {
+        actionTouchRelease = false;
+        
         ButtonAnimation.Play("idle");
         // Text effect for the stopped row
         pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
@@ -63,7 +67,7 @@ namespace LoveTester
         BackgroundParticles.Emitting = false;
       }
     
-      if (!Input.IsActionPressed(MainButton)) return;
+      if (!Input.IsActionPressed(MainButton) && !touched) return;
       if (timer > 0f) return;
 
       if (reset)
@@ -84,6 +88,14 @@ namespace LoveTester
     {
       pseudoRandomItems.ForEach(r => r.ImmediateOff());
       reset = false;
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+      base._Input(@event);
+      if (!(@event is InputEventScreenTouch)) return;
+      touched = @event.IsPressed();
+      if (!touched) actionTouchRelease = true;
     }
   }
 }
