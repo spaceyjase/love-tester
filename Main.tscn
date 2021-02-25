@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/love_tester.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://addons/camera_shake/camera_scripts/shake_camera_2D.gd" type="Script" id=7]
 [ext_resource path="res://assets/sfx/POL-casino.ogg" type="AudioStream" id=8]
 [ext_resource path="res://assets/sfx/alarm-loop.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sfx/POL-find-the-exit-short.ogg" type="AudioStream" id=10]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.516892, 0.810811 )
@@ -76,7 +77,6 @@ __meta__ = {
 }
 delayTimer = 0.33
 pseudoRandomIterations = 1
-musicFadeDuration = 0.25
 
 [node name="BackgroundGradient" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -151,13 +151,18 @@ autoplay = "idle"
 anims/idle = SubResource( 4 )
 anims/pressed = SubResource( 5 )
 
-[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+[node name="BackgroundSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -25.0
 autoplay = true
 
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -20.0
+autoplay = true
+
 [node name="ActionMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="FadeMusicTween" type="Tween" parent="."]
