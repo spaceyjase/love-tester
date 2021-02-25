@@ -16,6 +16,7 @@ public class Row : HBoxContainer
   private ColorRect ColorRect => GetNode<ColorRect>("CenterContainer/ColorRect");
   private Light2D Light => GetNode<Light2D>("CenterContainer/Light2D");
   private Tween LightTween => GetNode<Tween>("LightTween");
+  private AudioStreamPlayer2D SelectedSound => GetNode<AudioStreamPlayer2D>(nameof(SelectedSound));
 
   private float startingLightEnergy;
   private CPUParticles2D particlesInstance;
@@ -64,6 +65,7 @@ public class Row : HBoxContainer
   {
     Light.Energy = startingLightEnergy;
     Light.Visible = true;
+    SelectedSound.Play();
   }
 
   public void ShowParticles()

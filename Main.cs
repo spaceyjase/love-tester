@@ -97,16 +97,13 @@ namespace LoveTester
         {
           ActionMusic.Play();
         }
-        else
-        {
-          FadeMusicTween.InterpolateProperty(ActionMusic, "volume_db", -80, actionMusicVolume, musicFadeDuration,
-            Tween.TransitionType.Linear, Tween.EaseType.In);
-          FadeMusicTween.Start();
-        }
+
+        ActionMusic.VolumeDb = actionMusicVolume;
     }
 
     private void StopMusic()
     {
+        FadeMusicTween.Stop(ActionMusic);
         FadeMusicTween.InterpolateProperty(ActionMusic, "volume_db", actionMusicVolume, -80, musicFadeDuration,
           Tween.TransitionType.Linear, Tween.EaseType.Out);
         FadeMusicTween.Start();
