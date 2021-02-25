@@ -11,5 +11,5 @@ dest_files=[ "res://.import/Cheering-SoundBible.com-1115515042.ogg-122bc00972220
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
