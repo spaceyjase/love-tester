@@ -1,89 +1,92 @@
 using Godot;
-using System;
-using System.Xml;
 
-public class Row : HBoxContainer
+namespace LoveTester.UI
 {
-  [Export] private string description;
-  [Export] private Color bulbColour;
-  [Export] private float endLightEnergy = 0f;
-  [Export] private float offDuration = 0.05f;
-  [Export] private PackedScene particles;
+  public class Row : HBoxContainer
+  {
+    [Export] private string description;
+    [Export] private Color bulbColour;
+    [Export] private float endLightEnergy;
+    [Export] private float offDuration = 0.05f;
+    [Export] private PackedScene particles;
 
-  public string Description => description;
+    public string Description => description;
   
-  private Label DescriptionLabel => GetNode<Label>("Description");
-  private ColorRect ColorRect => GetNode<ColorRect>("CenterContainer/ColorRect");
-  private Light2D Light => GetNode<Light2D>("CenterContainer/Light2D");
-  private Tween LightTween => GetNode<Tween>("LightTween");
-  private AudioStreamPlayer2D SelectedSound => GetNode<AudioStreamPlayer2D>(nameof(SelectedSound));
+    private Label DescriptionLabel => GetNode<Label>("Description");
+    private ColorRect ColorRect => GetNode<ColorRect>("CenterContainer/ColorRect");
+    private Light2D Light => GetNode<Light2D>("CenterContainer/Light2D");
+    private Tween LightTween => GetNode<Tween>("LightTween");
+    private AudioStreamPlayer2D SelectedSound => GetNode<AudioStreamPlayer2D>(nameof(SelectedSound));
 
-  private float startingLightEnergy;
-  private CPUParticles2D particlesInstance;
+    private float startingLightEnergy;
+    private CPUParticles2D particlesInstance;
 
-  public override void _Ready()
-  {
-    base._Ready();
-
-    startingLightEnergy = Light.Energy;
-    ConfigureRow();
-
-    Global.Register(this);
-  }
-
-  private void ConfigureRow()
-  {
-    DescriptionLabel.Text = description;
-    var backgroundColor = bulbColour;
-    backgroundColor.a = 164f;
-    ColorRect.Color = backgroundColor;
-    Light.Color = bulbColour;
-    Light.Visible = false;  // Initial state is off.
-  }
-
-  public void Off()
-  {
-    if (!Light.Visible) return;
-    if (LightTween.IsActive()) return;
-    
-    LightTween.InterpolateProperty(Light, "energy", startingLightEnergy, endLightEnergy,
-      offDuration, Tween.TransitionType.Sine);
-    LightTween.Start();
-  }
-  
-  public void ImmediateOff()
-  {
-    Light.Visible = false;
-  }
-
-  public void _on_LightTween_tween_completed(object o, NodePath key)
-  {
-    Light.Visible = false;
-  }
-
-  public void On()
-  {
-    Light.Energy = startingLightEnergy;
-    Light.Visible = true;
-    SelectedSound.Play();
-  }
-
-  public void ShowParticles()
-  {
-    if (particles == null) return;
-
-    if (particlesInstance == null)
+    public override void _Ready()
     {
-      particlesInstance = particles.Instance() as CPUParticles2D;
-      DescriptionLabel.AddChild(particlesInstance);
+      base._Ready();
+
+      startingLightEnergy = Light.Energy;
+      ConfigureRow();
+
+      Global.Register(this);
     }
-    
-    particlesInstance.Emitting = true;
-    foreach (var child in particlesInstance.GetChildren())
+
+    private void ConfigureRow()
     {
-      if (child is CPUParticles2D particles2D)
+      DescriptionLabel.Text = description;
+      var backgroundColor = bulbColour;
+      backgroundColor.a = 164f;
+      ColorRect.Color = backgroundColor;
+      Light.Color = bulbColour;
+      Light.Visible = false;  // Initial state is off.
+    }
+
+    public void Off()
+    {
+      if (!Light.Visible) return;
+      if (LightTween.IsActive()) return;
+    
+      LightTween.InterpolateProperty(Light, "energy", startingLightEnergy, endLightEnergy,
+        offDuration, Tween.TransitionType.Sine);
+      LightTween.Start();
+    }
+  
+    public void ImmediateOff()
+    {
+      Light.Visible = false;
+    }
+
+    public void _on_LightTween_tween_completed(object o, NodePath key)
+    {
+      Light.Visible = false;
+    }
+
+    public void On()
+    {
+      Light.Energy = startingLightEnergy;
+      Light.Visible = true;
+      SelectedSound.Play();
+    }
+
+    public void ShowParticles()
+    {
+      if (particles == null) return;
+
+      if (particlesInstance == null)
       {
-        particles2D.Emitting = true;
+        particlesInstance = particles.Instance() as CPUParticles2D;
+        DescriptionLabel.AddChild(particlesInstance);
+      }
+
+      if (particlesInstance == null) return;
+      
+      particlesInstance.Emitting = true;
+      foreach (var child in particlesInstance.GetChildren())
+      {
+        if (child is CPUParticles2D particles2D)
+        {
+          particles2D.Emitting = true;
+        }
       }
     }
   }
