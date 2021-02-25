@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -8,6 +9,8 @@ namespace LoveTester
   {
     [Export] private float delayTimer = 0.25f;
     [Export] private int pseudoRandomIterations = 2;
+    [Export] private float musicFadeDuration = 0.25f;
+    [Export] private float actionMusicVolume = -10f;
 
     private const string MainButton = "main_button";
     
@@ -21,6 +24,8 @@ namespace LoveTester
     private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
     private AnimationPlayer ButtonAnimation => GetNode<AnimationPlayer>("ButtonAnimationPlayer");
     private Camera2D Camera => GetNode<Camera2D>("Camera2D");
+    private AudioStreamPlayer ActionMusic => GetNode<AudioStreamPlayer>(nameof(ActionMusic));
+    private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
 
     public override void _Ready()
     {
@@ -59,6 +64,7 @@ namespace LoveTester
         actionTouchRelease = false;
         
         ButtonAnimation.Play("idle");
+        StopMusic();
         // Text effect for the stopped row
         pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
         
@@ -72,6 +78,7 @@ namespace LoveTester
 
       if (reset)
       {
+        StartMusic();
         ButtonAnimation.Play("pressed");
         ResetLights();
         BackgroundParticles.Emitting = true;
@@ -82,6 +89,27 @@ namespace LoveTester
       pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
       
       timer = delayTimer;
+    }
+    
+    private void StartMusic()
+    {
+        if (!ActionMusic.Playing)
+        {
+          ActionMusic.Play();
+        }
+        else
+        {
+          FadeMusicTween.InterpolateProperty(ActionMusic, "volume_db", -80, actionMusicVolume, musicFadeDuration,
+            Tween.TransitionType.Linear, Tween.EaseType.In);
+          FadeMusicTween.Start();
+        }
+    }
+
+    private void StopMusic()
+    {
+        FadeMusicTween.InterpolateProperty(ActionMusic, "volume_db", actionMusicVolume, -80, musicFadeDuration,
+          Tween.TransitionType.Linear, Tween.EaseType.Out);
+        FadeMusicTween.Start();
     }
 
     private void ResetLights()
