@@ -67,6 +67,7 @@ namespace LoveTester
         StopMusic();
         // Text effect for the stopped row
         pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
+        pseudoRandomItems[currentItem % pseudoRandomItems.Count].PlayStoppedSound();
         
         // Generate a new list...
         GenerateLoveItems();

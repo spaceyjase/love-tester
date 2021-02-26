@@ -9,6 +9,7 @@ namespace LoveTester.UI
     [Export] private float endLightEnergy;
     [Export] private float offDuration = 0.05f;
     [Export] private PackedScene particles;
+    [Export] private AudioStreamOGGVorbis selectedSound;
 
     public string Description => description;
   
@@ -17,6 +18,7 @@ namespace LoveTester.UI
     private Light2D Light => GetNode<Light2D>("CenterContainer/Light2D");
     private Tween LightTween => GetNode<Tween>("LightTween");
     private AudioStreamPlayer2D SelectedSound => GetNode<AudioStreamPlayer2D>(nameof(SelectedSound));
+    private AudioStreamPlayer2D StoppedSound => GetNode<AudioStreamPlayer2D>(nameof(StoppedSound));
 
     private float startingLightEnergy;
     private CPUParticles2D particlesInstance;
@@ -39,6 +41,7 @@ namespace LoveTester.UI
       ColorRect.Color = backgroundColor;
       Light.Color = bulbColour;
       Light.Visible = false;  // Initial state is off.
+      StoppedSound.Stream = selectedSound;
     }
 
     public void Off()
@@ -66,6 +69,11 @@ namespace LoveTester.UI
       Light.Energy = startingLightEnergy;
       Light.Visible = true;
       SelectedSound.Play();
+    }
+
+    public void PlayStoppedSound()
+    {
+      StoppedSound.Play();
     }
 
     public void ShowParticles()
