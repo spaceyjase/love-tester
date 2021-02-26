@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/applause.ogg-e694521005e0415d5a4eefc29704eca1.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/applause.ogg"
+dest_files=[ "res://.import/applause.ogg-e694521005e0415d5a4eefc29704eca1.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using LoveTester.UI;
 
 public class Global : Node
 {
