@@ -19,6 +19,7 @@ namespace LoveTester.UI
     private Tween LightTween => GetNode<Tween>("LightTween");
     private AudioStreamPlayer2D SelectedSound => GetNode<AudioStreamPlayer2D>(nameof(SelectedSound));
     private AudioStreamPlayer2D StoppedSound => GetNode<AudioStreamPlayer2D>(nameof(StoppedSound));
+    private AnimationPlayer LightAnimationPlayer => GetNode<AnimationPlayer>(nameof(LightAnimationPlayer));
 
     private float startingLightEnergy;
     private CPUParticles2D particlesInstance;
@@ -57,6 +58,7 @@ namespace LoveTester.UI
     public void ImmediateOff()
     {
       Light.Visible = false;
+      LightAnimationPlayer.Stop();
     }
 
     public void _on_LightTween_tween_completed(object o, NodePath key)
@@ -96,6 +98,8 @@ namespace LoveTester.UI
           particles2D.Emitting = true;
         }
       }
+      LightAnimationPlayer.Seek(0f);
+      LightAnimationPlayer.Play("selected");
     }
   }
 }
