@@ -98,8 +98,8 @@ namespace LoveTester.UI
           particles2D.Emitting = true;
         }
       }
-      LightAnimationPlayer.Seek(0f);
       LightAnimationPlayer.Play("selected");
+      LightAnimationPlayer.Seek(0f);
     }
   }
 }

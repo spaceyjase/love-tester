@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -8,6 +9,7 @@ namespace LoveTester
   public class Main : Control
   {
     [Export] private float delayTimer = 0.25f;
+    [Export] private float attractTimer = 1f;
     [Export] private int pseudoRandomIterations = 2;
     [Export] private float musicFadeDuration = 0.25f;
     [Export] private float actionMusicVolume = -10f;
@@ -21,6 +23,8 @@ namespace LoveTester
     private bool actionTouchRelease;
     private bool touched;
 
+    private GameState gameState;
+
     private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
     private AnimationPlayer ButtonAnimation => GetNode<AnimationPlayer>("ButtonAnimationPlayer");
     private Camera2D Camera => GetNode<Camera2D>("Camera2D");
@@ -30,13 +34,44 @@ namespace LoveTester
     public override void _Ready()
     {
       base._Ready();
-    
-      GD.Randomize();
-    
-      // Generate a pseudo random list that's repeated while input is held
-      GenerateLoveItems();
+      ChangeState(GameState.Default);
+    }
 
-      BackgroundParticles.Emitting = false;
+    private void ChangeState(GameState newState)
+    {
+      switch (newState)
+      {
+        case GameState.Default:
+          GD.Randomize();
+          BackgroundParticles.Emitting = false;
+          break;
+        case GameState.AttractMode:
+          GD.Print("Waiting for coin...");
+          GenerateLoveItems();
+          break;
+        case GameState.WaitingForHold:
+          GD.Print("Waiting for hold...");
+          GenerateLoveItems();
+          break;
+        case GameState.Playing:
+          GD.Print("Playing...");
+          break;
+        case GameState.Stopping:
+          GD.Print("Stopping...");
+          break;
+        case GameState.Stopped:
+          GD.Print("Stopped...");
+          break;
+        case GameState.Finished:
+          GD.Print("Finished... waiting for input");
+          break;
+        case GameState.Options:
+          GD.Print("Display options");
+          break;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+      }
+      gameState = newState;
     }
 
     private void GenerateLoveItems()
@@ -50,46 +85,84 @@ namespace LoveTester
           pseudoRandomItems.Add(row);
         }
       }
+      ResetLights();
       reset = true;
     }
 
     public override void _Process(float delta)
     {
       base._Process(delta);
-    
+      
       timer -= delta;
 
-      if (Input.IsActionJustReleased(MainButton) || actionTouchRelease)
+      switch (gameState)
       {
-        actionTouchRelease = false;
-        
-        ButtonAnimation.Play("idle");
-        StopMusic();
-        // Text effect for the stopped row
-        pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
-        pseudoRandomItems[currentItem % pseudoRandomItems.Count].PlayStoppedSound();
-        
-        // Generate a new list...
-        GenerateLoveItems();
-        BackgroundParticles.Emitting = false;
-      }
-    
-      if (!Input.IsActionPressed(MainButton) && !touched) return;
-      if (timer > 0f) return;
+        case GameState.Default:
+          ChangeState(GameState.AttractMode);
+          break;
+        case GameState.AttractMode:
+          // TODO: dialog or interface showing 'insert coin'/attract mode/instructions
+          if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed */)
+          {
+            ChangeState(GameState.WaitingForHold);
+            return;
+          }
+          if (timer > 0f) return;
+          pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+          pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+          timer = attractTimer;
+          break;
+        case GameState.WaitingForHold:
+          if (!Input.IsActionPressed(MainButton) && !touched) return;
+          ChangeState(GameState.Playing);
+          break;
+        case GameState.Playing:
+          if (Input.IsActionJustReleased(MainButton) || actionTouchRelease)
+          {
+            actionTouchRelease = false;
+            ChangeState(GameState.Stopping);
+            return;
+          }
 
-      if (reset)
-      {
-        StartMusic();
-        ButtonAnimation.Play("pressed");
-        ResetLights();
-        BackgroundParticles.Emitting = true;
+          if (timer > 0f) return;
+          if (reset)
+          {
+            reset = false;
+            StartMusic();
+            ButtonAnimation.Play("pressed");
+            BackgroundParticles.Emitting = true;
+          }
+
+          // TODO: if enabled...
+          Camera.Call("add_stress", 0.5f);
+          pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+          pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+
+          timer = delayTimer; 
+          break;
+        case GameState.Stopping:
+          // TODO: stopping... slow to a halt over N seconds
+          ChangeState(GameState.Stopped);
+          break;
+        case GameState.Stopped:
+          ButtonAnimation.Play("idle");
+          StopMusic();
+          pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
+          pseudoRandomItems[currentItem % pseudoRandomItems.Count].PlayStoppedSound();
+          BackgroundParticles.Emitting = false;
+          ChangeState(GameState.Finished);
+          break;
+        case GameState.Finished:
+          if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed */)
+          {
+            ChangeState(GameState.Default);
+          }
+          break;
+        case GameState.Options:
+          break;
+        default:
+          throw new ArgumentOutOfRangeException();
       }
-      
-      Camera.Call("add_stress", 0.5f);
-      pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
-      pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
-      
-      timer = delayTimer;
     }
     
     private void StartMusic()
@@ -113,7 +186,6 @@ namespace LoveTester
     private void ResetLights()
     {
       pseudoRandomItems.ForEach(r => r.ImmediateOff());
-      reset = false;
     }
 
     public override void _Input(InputEvent @event)
