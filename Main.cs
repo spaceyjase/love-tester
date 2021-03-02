@@ -30,13 +30,16 @@ namespace LoveTester
     private Camera2D Camera => GetNode<Camera2D>("Camera2D");
     private AudioStreamPlayer ActionMusic => GetNode<AudioStreamPlayer>(nameof(ActionMusic));
     private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
+    private AnimationPlayer FadeInAnimationPlayer => GetNode<AnimationPlayer>(nameof(FadeInAnimationPlayer));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
     private bool attractModeEnabled = true;
 
-    public override void _Ready()
+    public override async void _Ready()
     {
       base._Ready();
+      await ToSignal(FadeInAnimationPlayer, "animation_finished");
+      ResetLights();
       ChangeState(GameState.Default);
     }
 
@@ -66,7 +69,7 @@ namespace LoveTester
           GD.Print("Stopped...");
           break;
         case GameState.Finished:
-          GD.Print("Finished... waiting for input");
+          GD.Print("Finished... ");
           attractModeEnabled = false;
           break;
         case GameState.Options:

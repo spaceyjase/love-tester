@@ -110,6 +110,7 @@ use_parent_material = true
 position = Vector2( 300, 714 )
 texture = ExtResource( 6 )
 hframes = 2
+frame = 1
 
 [node name="HUD" parent="." instance=ExtResource( 1 )]
 anchor_left = 0.5
@@ -136,7 +137,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-color = Color( 0, 0, 0, 0 )
+color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
