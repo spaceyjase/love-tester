@@ -6,6 +6,7 @@ public class Menu : Control
   [Signal] private delegate void Shown();
   [Signal] private delegate void Hidden();
 
+  private AudioStreamPlayer2D ButtonClick => GetNode<AudioStreamPlayer2D>(nameof(ButtonClick));
   private AnimationPlayer ButtonAnimationPlayer => GetNode<AnimationPlayer>(nameof(ButtonAnimationPlayer));
 
   private void OnButtonAnimationPlayerFinished(string name)
@@ -24,5 +25,11 @@ public class Menu : Control
   {
     ButtonAnimationPlayer.Play("play_slide_out");
     await ToSignal(this, nameof(Hidden));
+  }
+
+  public void OnButtonPressed(string name)
+  {
+    ButtonClick.Play();
+    // TODO: Emit appropriate signal - insert coin or options
   }
 }

@@ -4,8 +4,10 @@ namespace LoveTester.UI
 {
   public class Button : TextureButton
   {
-    [Export] private int downOffset = 3;
+    [Signal] private delegate void ButtonPressed(string buttonName);
     
+    [Export] private int downOffset = 3;
+
     private Label buttonLabel;
     private Vector2 buttonUpPosition;
     private Vector2 buttonDownPosition;
@@ -36,8 +38,7 @@ namespace LoveTester.UI
     public void OnButtonUp()
     {
       buttonLabel.RectPosition = buttonUpPosition;
-    
-      // TODO: hook menu to event -> menu fires button pressed
+      EmitSignal(nameof(ButtonPressed), Name);
     }
   }
 }
