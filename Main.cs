@@ -13,6 +13,7 @@ namespace LoveTester
     [Export] private int pseudoRandomIterations = 2;
     [Export] private float musicFadeDuration = 0.25f;
     [Export] private float actionMusicVolume = -10f;
+    [Export] private float attractReenableTime = -30f;
 
     private const string MainButton = "main_button";
     
@@ -120,6 +121,13 @@ namespace LoveTester
             ChangeState(GameState.WaitingForHold);
             return;
           }
+
+          if (!attractModeEnabled && timer < attractReenableTime)
+          {
+            attractModeEnabled = true;
+            ResetLights();
+          }
+
           if (attractModeEnabled)
           {
             if (timer > 0f) return;
