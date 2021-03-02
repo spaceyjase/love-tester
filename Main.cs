@@ -30,6 +30,7 @@ namespace LoveTester
     private Camera2D Camera => GetNode<Camera2D>("Camera2D");
     private AudioStreamPlayer ActionMusic => GetNode<AudioStreamPlayer>(nameof(ActionMusic));
     private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
+    private Menu Menu => GetNode<Menu>(nameof(Menu));
 
     public override void _Ready()
     {
@@ -89,7 +90,7 @@ namespace LoveTester
       reset = true;
     }
 
-    public override void _Process(float delta)
+    public override async void _Process(float delta)
     {
       base._Process(delta);
       
@@ -98,6 +99,8 @@ namespace LoveTester
       switch (gameState)
       {
         case GameState.Default:
+          // TODO: show UI
+          await ToSignal(Menu, "Shown");
           ChangeState(GameState.AttractMode);
           break;
         case GameState.AttractMode:

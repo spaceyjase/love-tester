@@ -162,4 +162,4 @@ volume_db = -15.0
 
 [node name="FadeMusicTween" type="Tween" parent="."]
 
-[node name="Menu HUD" parent="." instance=ExtResource( 10 )]
+[node name="Menu" parent="." instance=ExtResource( 10 )]
