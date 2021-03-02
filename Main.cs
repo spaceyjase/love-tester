@@ -38,8 +38,9 @@ namespace LoveTester
     public override async void _Ready()
     {
       base._Ready();
+      
       await ToSignal(FadeInAnimationPlayer, "animation_finished");
-      ResetLights();
+      
       ChangeState(GameState.Default);
     }
 
@@ -47,6 +48,8 @@ namespace LoveTester
     {
       switch (newState)
       {
+        case GameState.None:
+          return;
         case GameState.Default:
           GD.Randomize();
           BackgroundParticles.Emitting = false;
@@ -95,7 +98,7 @@ namespace LoveTester
       reset = true;
     }
 
-    public override async void _Process(float delta)
+    public override void _Process(float delta)
     {
       base._Process(delta);
       
@@ -103,6 +106,8 @@ namespace LoveTester
 
       switch (gameState)
       {
+        case GameState.None:
+          return;
         case GameState.Default:
           Menu.Display();
           ChangeState(GameState.AttractMode);

@@ -2,6 +2,7 @@
 {
   public enum GameState
   {
+    None,
     Default,
     AttractMode,
     WaitingForHold,
@@ -9,6 +10,6 @@
     Stopping,
     Stopped,
     Finished,
-    Options,
+    Options
   }
 }
