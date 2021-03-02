@@ -100,13 +100,13 @@ namespace LoveTester
       {
         case GameState.Default:
           // TODO: show UI
-          await ToSignal(Menu, "Shown");
+          Menu.Display();
           ChangeState(GameState.AttractMode);
           break;
         case GameState.AttractMode:
-          // TODO: dialog or interface showing 'insert coin'/attract mode/instructions
-          if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed */)
+          if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed/touched insert coin versus options */)
           {
+            Menu.Conceal();
             ChangeState(GameState.WaitingForHold);
             return;
           }

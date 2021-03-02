@@ -4,11 +4,25 @@ using System;
 public class Menu : Control
 {
   [Signal] private delegate void Shown();
+  [Signal] private delegate void Hidden();
 
-  private AnimationPlayer AnimationPlayer => GetNode<AnimationPlayer>(nameof(AnimationPlayer));
+  private AnimationPlayer ButtonAnimationPlayer => GetNode<AnimationPlayer>(nameof(ButtonAnimationPlayer));
 
   private void OnButtonAnimationPlayerFinished(string name)
   {
-    EmitSignal(nameof(Shown));
+    var signal = name == "play_slide_in" ? nameof(Shown) : nameof(Hidden);
+    EmitSignal(signal);
+  }
+
+  public async void Display()
+  {
+    ButtonAnimationPlayer.Play("play_slide_in");
+    await ToSignal(this, nameof(Shown));
+  }
+
+  public async void Conceal()
+  {
+    ButtonAnimationPlayer.Play("play_slide_out");
+    await ToSignal(this, nameof(Hidden));
   }
 }
