@@ -32,6 +32,8 @@ namespace LoveTester
     private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
+    private bool attractModeEnabled = true;
+
     public override void _Ready()
     {
       base._Ready();
@@ -65,6 +67,7 @@ namespace LoveTester
           break;
         case GameState.Finished:
           GD.Print("Finished... waiting for input");
+          attractModeEnabled = false;
           break;
         case GameState.Options:
           GD.Print("Display options");
@@ -86,7 +89,6 @@ namespace LoveTester
           pseudoRandomItems.Add(row);
         }
       }
-      ResetLights();
       reset = true;
     }
 
@@ -99,21 +101,24 @@ namespace LoveTester
       switch (gameState)
       {
         case GameState.Default:
-          // TODO: show UI
           Menu.Display();
           ChangeState(GameState.AttractMode);
           break;
         case GameState.AttractMode:
           if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed/touched insert coin versus options */)
           {
+            ResetLights();
             Menu.Conceal();
             ChangeState(GameState.WaitingForHold);
             return;
           }
-          if (timer > 0f) return;
-          pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
-          pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
-          timer = attractTimer;
+          if (attractModeEnabled)
+          {
+            if (timer > 0f) return;
+            pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+            pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+            timer = attractTimer;
+          }
           break;
         case GameState.WaitingForHold:
           if (!Input.IsActionPressed(MainButton) && !touched) return;
@@ -156,10 +161,7 @@ namespace LoveTester
           ChangeState(GameState.Finished);
           break;
         case GameState.Finished:
-          if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed */)
-          {
-            ChangeState(GameState.Default);
-          }
+          ChangeState(GameState.Default);
           break;
         case GameState.Options:
           break;
