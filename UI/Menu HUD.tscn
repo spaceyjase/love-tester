@@ -75,8 +75,7 @@ __meta__ = {
 }
 
 [node name="PlayButton" type="TextureButton" parent="GridContainer"]
-margin_left = 250.0
-margin_right = 450.0
+margin_right = 200.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 200, 100 )
 texture_normal = ExtResource( 3 )

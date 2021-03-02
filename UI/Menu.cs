@@ -9,6 +9,6 @@ public class Menu : Control
 
   private void OnButtonAnimationPlayerFinished(string name)
   {
-    GD.Print($"completed: {name}");
+    EmitSignal(nameof(Shown));
   }
 }
