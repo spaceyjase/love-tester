@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/love_tester.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/sfx/POL-casino.ogg" type="AudioStream" id=8]
 [ext_resource path="res://assets/sfx/alarm-loop.ogg" type="AudioStream" id=9]
 [ext_resource path="res://UI/Menu HUD.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/sfx/coin.ogg" type="AudioStream" id=11]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.516892, 0.810811 )
@@ -160,6 +161,9 @@ autoplay = true
 [node name="ActionMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
 volume_db = -15.0
+
+[node name="InsertCoinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
 
 [node name="FadeMusicTween" type="Tween" parent="."]
 

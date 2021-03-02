@@ -32,6 +32,7 @@ namespace LoveTester
     private AudioStreamPlayer ActionMusic => GetNode<AudioStreamPlayer>(nameof(ActionMusic));
     private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
     private AnimationPlayer FadeInAnimationPlayer => GetNode<AnimationPlayer>(nameof(FadeInAnimationPlayer));
+    private AudioStreamPlayer InsertCoinSound => GetNode<AudioStreamPlayer>(nameof(InsertCoinSound));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
     private bool attractModeEnabled = true;
@@ -118,6 +119,7 @@ namespace LoveTester
           {
             ResetLights();
             Menu.Conceal();
+            InsertCoinSound.Play();
             ChangeState(GameState.WaitingForHold);
             return;
           }
