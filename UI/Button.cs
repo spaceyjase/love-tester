@@ -5,6 +5,7 @@ namespace LoveTester.UI
   public class Button : TextureButton
   {
     [Signal] private delegate void ButtonPressed(string buttonName);
+    [Signal] private delegate void FocusEntered(string buttonName);
 
     private TextureRect arrowIndicator;
 
@@ -12,6 +13,7 @@ namespace LoveTester.UI
     {
       base._Ready();
       arrowIndicator = GetChild<TextureRect>(0);
+      Connect("focus_entered", this, nameof(OnFocusEntered));
     }
 
     public void OnButtonPressed()
@@ -19,6 +21,12 @@ namespace LoveTester.UI
       EmitSignal(nameof(ButtonPressed), Name);
     }
 
+    public void OnFocusEntered()
+    {
+      SetFocus();
+      EmitSignal(nameof(FocusEntered), Name);
+    }
+    
     public void SetFocus()
     {
       if (arrowIndicator.Visible) return;
@@ -29,6 +37,7 @@ namespace LoveTester.UI
     {
       if (!arrowIndicator.Visible) return;
       arrowIndicator.Visible = false;
+      ReleaseFocus();
     }
   }
 }

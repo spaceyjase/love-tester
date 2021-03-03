@@ -130,11 +130,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 30.0
+margin_left = -220.0
 margin_top = -220.0
-margin_right = 230.0
+margin_right = -19.9999
 margin_bottom = -120.0
 rect_min_size = Vector2( 200, 100 )
+focus_neighbour_bottom = NodePath("../OptionsButton")
 mouse_filter = 1
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 3 )
@@ -148,12 +149,13 @@ __meta__ = {
 visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = -120.0
+margin_left = -100.0
 margin_top = -40.0
-margin_right = -20.0
+margin_right = -7.62939e-06
 margin_bottom = 40.0
 texture = ExtResource( 8 )
 expand = true
+stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -168,6 +170,7 @@ margin_top = -110.0
 margin_right = 230.0
 margin_bottom = -9.99994
 rect_min_size = Vector2( 200, 100 )
+focus_neighbour_top = NodePath("../PlayButton")
 texture_normal = ExtResource( 9 )
 texture_pressed = ExtResource( 10 )
 expand = true
@@ -180,12 +183,13 @@ __meta__ = {
 visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = -120.0
+margin_left = -100.0
 margin_top = -40.0
-margin_right = -20.0
+margin_right = -7.62939e-06
 margin_bottom = 40.0
 texture = ExtResource( 8 )
 expand = true
+stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -206,7 +210,9 @@ stream = ExtResource( 7 )
 volume_db = -5.0
 attenuation = 0.0291573
 [connection signal="ButtonPressed" from="PlayButton" to="." method="OnButtonPressed"]
+[connection signal="FocusEntered" from="PlayButton" to="." method="OnFocusEntered"]
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="OnButtonPressed"]
 [connection signal="ButtonPressed" from="OptionsButton" to="." method="OnButtonPressed"]
+[connection signal="FocusEntered" from="OptionsButton" to="." method="OnFocusEntered"]
 [connection signal="pressed" from="OptionsButton" to="OptionsButton" method="OnButtonPressed"]
 [connection signal="animation_finished" from="ButtonAnimationPlayer" to="." method="OnButtonAnimationPlayerFinished"]

@@ -33,12 +33,12 @@ public class Menu : Control
     if (!displayed) return;
     
     menuButtons[currentButton % menuButtons.Length].SetFocus();
-    if (Input.IsActionPressed(Global.MainButton))
+    if (Input.IsActionPressed(Global.MenuButton))
     {
       // TODO: Start indicator tween
     }
 
-    if (Input.IsActionJustReleased(Global.MainButton))
+    if (Input.IsActionJustReleased(Global.MenuButton))
     {
       // TODO: cancel indicator tween
       menuButtons[currentButton++ % menuButtons.Length].RemoveFocus();
@@ -85,5 +85,14 @@ public class Menu : Control
         return;
     }
     EmitSignal(signal);
+  }
+
+  private void OnFocusEntered(string name)
+  {
+    for (var n = 0; n < menuButtons.Length; ++n)
+    {
+      menuButtons[n].RemoveFocus();
+      if (menuButtons[n].Name == name) currentButton = n;
+    }
   }
 }

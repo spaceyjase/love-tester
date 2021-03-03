@@ -12,6 +12,7 @@ public class Global : Node
   public static IEnumerable<Row> Rows => Instance.rows.Values;
   
   public static readonly string MainButton = "main_button";
+  public static readonly string MenuButton = "menu_button";
 
   public override void _Ready()
   {
