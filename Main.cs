@@ -36,6 +36,8 @@ namespace LoveTester
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
     private bool attractModeEnabled = true;
+    private bool insertCoinClicked;
+    private bool optionButtonClicked;
 
     public override async void _Ready()
     {
@@ -115,28 +117,36 @@ namespace LoveTester
           ChangeState(GameState.AttractMode);
           break;
         case GameState.AttractMode:
-          if (Input.IsActionJustReleased(MainButton) /* TODO: button pressed/touched insert coin versus options */)
+          if (insertCoinClicked)
           {
+            insertCoinClicked = false;
             ResetLights();
             Menu.Conceal();
             InsertCoinSound.Play();
             ChangeState(GameState.WaitingForHold);
-            return;
+          }
+          else if (optionButtonClicked)
+          {
+            // TODO: do options
+            optionButtonClicked = false;
+          }
+          else
+          {
+            if (!attractModeEnabled && timer < attractReenableTime)
+            {
+              attractModeEnabled = true;
+              ResetLights();
+            }
+
+            if (attractModeEnabled)
+            {
+              if (timer > 0f) return;
+              pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+              pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+              timer = attractTimer;
+            }
           }
 
-          if (!attractModeEnabled && timer < attractReenableTime)
-          {
-            attractModeEnabled = true;
-            ResetLights();
-          }
-
-          if (attractModeEnabled)
-          {
-            if (timer > 0f) return;
-            pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
-            pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
-            timer = attractTimer;
-          }
           break;
         case GameState.WaitingForHold:
           if (!Input.IsActionPressed(MainButton) && !touched) return;
@@ -217,6 +227,11 @@ namespace LoveTester
       if (!(@event is InputEventScreenTouch)) return;
       touched = @event.IsPressed();
       if (!touched) actionTouchRelease = true;
+    }
+
+    public void OnInsertCoinClicked()
+    {
+      insertCoinClicked = true;
     }
   }
 }

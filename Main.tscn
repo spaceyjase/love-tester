@@ -168,3 +168,4 @@ stream = ExtResource( 11 )
 [node name="FadeMusicTween" type="Tween" parent="."]
 
 [node name="Menu" parent="." instance=ExtResource( 10 )]
+[connection signal="PlayButtonClicked" from="Menu" to="." method="OnInsertCoinClicked"]
