@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 [ext_resource path="res://UI/Button.cs" type="Script" id=2]
@@ -7,12 +7,13 @@
 [ext_resource path="res://UI/Menu.cs" type="Script" id=5]
 [ext_resource path="res://assets/sfx/button-click.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/sfx/button-swoosh.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/buttons/arrow.png" type="Texture" id=8]
 [ext_resource path="res://assets/buttons/red/options.png" type="Texture" id=9]
 [ext_resource path="res://assets/buttons/pressed/options-pressed.png" type="Texture" id=10]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "play_slide_in"
 length = 0.5
 tracks/0/type = "value"
@@ -51,8 +52,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Background:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.45098 ) ]
+}
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "play_slide_out"
 length = 0.25
 tracks/0/type = "value"
@@ -79,6 +92,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 380, 690 ), Vector2( 630, 690 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Background:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.45098 ), Color( 0, 0, 0, 0 ) ]
+}
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -89,7 +114,6 @@ __meta__ = {
 }
 
 [node name="Background" type="TextureRect" parent="."]
-visible = false
 modulate = Color( 0, 0, 0, 0.45098 )
 material = SubResource( 1 )
 anchor_right = 1.0
@@ -120,6 +144,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Arrow" type="TextureRect" parent="PlayButton"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -120.0
+margin_top = -40.0
+margin_right = -20.0
+margin_bottom = 40.0
+texture = ExtResource( 8 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="OptionsButton" type="TextureButton" parent="."]
 anchor_left = 1.0
 anchor_top = 1.0
@@ -138,10 +176,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Arrow" type="TextureRect" parent="OptionsButton"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -120.0
+margin_top = -40.0
+margin_right = -20.0
+margin_bottom = 40.0
+texture = ExtResource( 8 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "play_slide_in"
-anims/play_slide_in = SubResource( 3 )
-anims/play_slide_out = SubResource( 4 )
+anims/play_slide_in = SubResource( 2 )
+anims/play_slide_out = SubResource( 3 )
 
 [node name="ButtonClick" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )

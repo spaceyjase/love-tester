@@ -15,8 +15,6 @@ namespace LoveTester
     [Export] private float actionMusicVolume = -10f;
     [Export] private float attractReenableTime = -30f;
 
-    private const string MainButton = "main_button";
-    
     private float timer;
     private List<Row> pseudoRandomItems;
     private int currentItem;
@@ -149,11 +147,11 @@ namespace LoveTester
 
           break;
         case GameState.WaitingForHold:
-          if (!Input.IsActionPressed(MainButton) && !touched) return;
+          if (!Input.IsActionPressed(Global.MainButton) && !touched) return;
           ChangeState(GameState.Playing);
           break;
         case GameState.Playing:
-          if (Input.IsActionJustReleased(MainButton) || actionTouchRelease)
+          if (Input.IsActionJustReleased(Global.MainButton) || actionTouchRelease)
           {
             actionTouchRelease = false;
             ChangeState(GameState.Stopping);

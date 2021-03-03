@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public class Menu : Control
 {
@@ -12,6 +13,37 @@ public class Menu : Control
   private AnimationPlayer ButtonAnimationPlayer => GetNode<AnimationPlayer>(nameof(ButtonAnimationPlayer));
   
   private bool displayed = true; // displayed by default, i.e. when Ready
+
+  private LoveTester.UI.Button[] menuButtons;
+  private int currentButton;
+
+  public override void _Ready()
+  {
+    base._Ready();
+
+    menuButtons = new[]
+    {
+      GetNode<LoveTester.UI.Button>("PlayButton"),
+      GetNode<LoveTester.UI.Button>("OptionsButton")
+    };
+  }
+
+  public override void _Process(float delta)
+  {
+    if (!displayed) return;
+    
+    menuButtons[currentButton % menuButtons.Length].SetFocus();
+    if (Input.IsActionPressed(Global.MainButton))
+    {
+      // TODO: Start indicator tween
+    }
+
+    if (Input.IsActionJustReleased(Global.MainButton))
+    {
+      // TODO: cancel indicator tween
+      menuButtons[currentButton++ % menuButtons.Length].RemoveFocus();
+    }
+  }
 
   private void OnButtonAnimationPlayerFinished(string name)
   {
@@ -33,6 +65,7 @@ public class Menu : Control
     ButtonAnimationPlayer.Play("play_slide_out");
     await ToSignal(this, nameof(Hidden));
     displayed = false;
+    Array.ForEach(menuButtons, b => b.RemoveFocus());
   }
 
   public void OnButtonPressed(string name)
