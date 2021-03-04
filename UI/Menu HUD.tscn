@@ -114,7 +114,7 @@ __meta__ = {
 }
 
 [node name="Background" type="TextureRect" parent="."]
-modulate = Color( 0, 0, 0, 0.45098 )
+modulate = Color( 0, 0, 0, 0 )
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -130,9 +130,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -220.0
+margin_left = 30.0
 margin_top = -220.0
-margin_right = -19.9999
+margin_right = 230.0
 margin_bottom = -120.0
 rect_min_size = Vector2( 200, 100 )
 focus_neighbour_bottom = NodePath("../OptionsButton")
@@ -144,6 +144,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+destinationOffset = 25.0
 
 [node name="Arrow" type="TextureRect" parent="PlayButton"]
 visible = false
@@ -159,6 +160,8 @@ stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="IndicatorTween" type="Tween" parent="PlayButton"]
 
 [node name="OptionsButton" type="TextureButton" parent="."]
 anchor_left = 1.0
@@ -178,6 +181,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+destinationOffset = 25.0
 
 [node name="Arrow" type="TextureRect" parent="OptionsButton"]
 visible = false
@@ -192,6 +196,8 @@ stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="IndicatorTween" type="Tween" parent="OptionsButton"]
 
 [node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "play_slide_in"
@@ -210,8 +216,10 @@ volume_db = -5.0
 attenuation = 0.0291573
 [connection signal="ButtonPressed" from="PlayButton" to="." method="OnButtonPressed"]
 [connection signal="FocusEntered" from="PlayButton" to="." method="OnFocusEntered"]
+[connection signal="FocusLost" from="PlayButton" to="." method="OnFocusLost"]
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="OnButtonPressed"]
 [connection signal="ButtonPressed" from="OptionsButton" to="." method="OnButtonPressed"]
 [connection signal="FocusEntered" from="OptionsButton" to="." method="OnFocusEntered"]
+[connection signal="FocusLost" from="OptionsButton" to="." method="OnFocusLost"]
 [connection signal="pressed" from="OptionsButton" to="OptionsButton" method="OnButtonPressed"]
 [connection signal="animation_finished" from="ButtonAnimationPlayer" to="." method="OnButtonAnimationPlayerFinished"]

@@ -33,16 +33,11 @@ public class Menu : Control
     if (!displayed) return;
     
     menuButtons[currentButton % menuButtons.Length].SetFocus();
-    if (Input.IsActionPressed(Global.MenuButton))
-    {
-      // TODO: Start indicator tween
-    }
+  }
 
-    if (Input.IsActionJustReleased(Global.MenuButton))
-    {
-      // TODO: cancel indicator tween
-      menuButtons[currentButton++ % menuButtons.Length].RemoveFocus();
-    }
+  private void OnFocusLost(string buttonName)
+  {
+    menuButtons[currentButton++ % menuButtons.Length].RemoveFocus();
   }
 
   private void OnButtonAnimationPlayerFinished(string name)
@@ -54,6 +49,7 @@ public class Menu : Control
   public async void Display()
   {
     if (displayed) return;
+    currentButton = 0;
     ButtonAnimationPlayer.Play("play_slide_in");
     await ToSignal(this, nameof(Shown));
     displayed = true;

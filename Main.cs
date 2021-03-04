@@ -125,7 +125,7 @@ namespace LoveTester
           }
           else if (optionButtonClicked)
           {
-            // TODO: do options
+            // TODO: do options - also check fromHold
             optionButtonClicked = false;
           }
           else
@@ -144,7 +144,6 @@ namespace LoveTester
               timer = attractTimer;
             }
           }
-
           break;
         case GameState.WaitingForHold:
           if (!Input.IsActionPressed(Global.MainButton) && !touched) return;
