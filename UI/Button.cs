@@ -51,7 +51,8 @@ namespace LoveTester.UI
         OnButtonPressed();
         return;
       }
-      else if (timer > initialTimer && Input.IsActionPressed(Global.MenuButton) && !indicatorTween.IsActive())
+
+      if (timer > initialTimer && Input.IsActionPressed(Global.MenuButton) && !indicatorTween.IsActive())
       {
         indicatorTween.InterpolateProperty(arrowIndicator, "rect_position", indicatorStartPosition,
           indicatorEndPosition, holdTime);
