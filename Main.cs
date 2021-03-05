@@ -35,11 +35,13 @@ namespace LoveTester
     private AudioStreamPlayer ActionMusic => GetNode<AudioStreamPlayer>(nameof(ActionMusic));
     private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
     private AnimationPlayer FadeInAnimationPlayer => GetNode<AnimationPlayer>(nameof(FadeInAnimationPlayer));
+    private AnimationPlayer InstructionsAnimationPlayer => GetNode<AnimationPlayer>(nameof(InstructionsAnimationPlayer));
     private AudioStreamPlayer InsertCoinSound => GetNode<AudioStreamPlayer>(nameof(InsertCoinSound));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
     private bool attractModeEnabled = true;
     private bool insertCoinClicked;
+    private bool instructionsShown;
 
     public override async void _Ready()
     {
@@ -64,6 +66,10 @@ namespace LoveTester
           GenerateLoveItems();
           break;
         case GameState.WaitingForHold:
+          if (!instructionsShown)
+          {
+            ShowInstructions();
+          }
           GenerateLoveItems();
           break;
         case GameState.Playing:
@@ -81,6 +87,13 @@ namespace LoveTester
           throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
       }
       gameState = newState;
+    }
+
+    private void ShowInstructions()
+    {
+      instructionsShown = true;
+      InstructionsAnimationPlayer.Stop();
+      InstructionsAnimationPlayer.Play("instructions");
     }
 
     private void GenerateLoveItems()

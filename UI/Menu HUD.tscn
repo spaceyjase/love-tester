@@ -13,40 +13,39 @@
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
-[sub_resource type="Animation" id=4]
-resource_name = "idle"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Arrow:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -50, 10 ), Vector2( -20, 10 ), Vector2( -50, 10 ) ]
-}
-
-[sub_resource type="Animation" id=5]
-resource_name = "idle"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Arrow:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -50, 10 ), Vector2( -20, 10 ), Vector2( -50, 10 ) ]
-}
-
 [sub_resource type="Animation" id=2]
-resource_name = "play_slide_in"
+resource_name = "idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -50, 10 ), Vector2( -20, 10 ), Vector2( -50, 10 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -50, 10 ), Vector2( -20, 10 ), Vector2( -50, 10 ) ]
+}
+
+[sub_resource type="Animation" id=4]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayButton:rect_position")
@@ -97,8 +96,7 @@ tracks/3/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.45098 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "play_slide_out"
+[sub_resource type="Animation" id=5]
 length = 0.25
 tracks/0/type = "value"
 tracks/0/path = NodePath("PlayButton:rect_position")
@@ -198,7 +196,7 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PlayButton"]
 autoplay = "idle"
-anims/idle = SubResource( 4 )
+anims/idle = SubResource( 2 )
 
 [node name="OptionsButton" type="TextureButton" parent="."]
 anchor_left = 1.0
@@ -240,12 +238,12 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="OptionsButton"]
 autoplay = "idle"
-anims/idle = SubResource( 5 )
+anims/idle = SubResource( 3 )
 
 [node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "play_slide_in"
-anims/play_slide_in = SubResource( 2 )
-anims/play_slide_out = SubResource( 3 )
+anims/play_slide_in = SubResource( 4 )
+anims/play_slide_out = SubResource( 5 )
 
 [node name="ButtonClick" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
