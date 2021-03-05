@@ -10,7 +10,9 @@ public class Global : Node
   private readonly Dictionary<string, Row> rows = new Dictionary<string, Row>();
 
   public static IEnumerable<Row> Rows => Instance.rows.Values;
-  //Instance.rows.Values
+  
+  public static readonly string MainButton = "main_button";
+  public static readonly string MenuButton = "menu_button";
 
   public override void _Ready()
   {

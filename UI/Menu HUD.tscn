@@ -1,0 +1,225 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/white.png" type="Texture" id=1]
+[ext_resource path="res://UI/Button.cs" type="Script" id=2]
+[ext_resource path="res://assets/buttons/pressed/play-pressed.png" type="Texture" id=3]
+[ext_resource path="res://assets/buttons/red/play.png" type="Texture" id=4]
+[ext_resource path="res://UI/Menu.cs" type="Script" id=5]
+[ext_resource path="res://assets/sfx/button-click.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/button-swoosh.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/buttons/arrow.png" type="Texture" id=8]
+[ext_resource path="res://assets/buttons/red/options.png" type="Texture" id=9]
+[ext_resource path="res://assets/buttons/pressed/options-pressed.png" type="Texture" id=10]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "play_slide_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayButton:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 630, 580 ), Vector2( 380, 580 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("OptionsButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 630, 690 ), Vector2( 380, 690 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ButtonSlide:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1, 0.5 ),
+"transitions": PoolRealArray( 0, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Background:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.45098 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "play_slide_out"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayButton:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 380, 580 ), Vector2( 630, 580 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("OptionsButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.06, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 380, 690 ), Vector2( 630, 690 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Background:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.45098 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[node name="Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color( 0, 0, 0, 0 )
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = -220.0
+margin_right = 230.0
+margin_bottom = -120.0
+rect_min_size = Vector2( 200, 100 )
+focus_neighbour_bottom = NodePath("../OptionsButton")
+mouse_filter = 1
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+expand = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+destinationOffset = 25.0
+
+[node name="Arrow" type="TextureRect" parent="PlayButton"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -80.0
+margin_top = -40.0
+margin_right = -7.62939e-06
+margin_bottom = 40.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IndicatorTween" type="Tween" parent="PlayButton"]
+
+[node name="OptionsButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = -110.0
+margin_right = 230.0
+margin_bottom = -9.99994
+rect_min_size = Vector2( 200, 100 )
+focus_neighbour_top = NodePath("../PlayButton")
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 10 )
+expand = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+destinationOffset = 25.0
+
+[node name="Arrow" type="TextureRect" parent="OptionsButton"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -80.0
+margin_top = -40.0
+margin_bottom = 40.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IndicatorTween" type="Tween" parent="OptionsButton"]
+
+[node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "play_slide_in"
+anims/play_slide_in = SubResource( 2 )
+anims/play_slide_out = SubResource( 3 )
+
+[node name="ButtonClick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = -5.0
+pitch_scale = 1.1
+attenuation = 0.307786
+
+[node name="ButtonSlide" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+volume_db = -5.0
+attenuation = 0.0291573
+[connection signal="ButtonPressed" from="PlayButton" to="." method="OnButtonPressed"]
+[connection signal="FocusEntered" from="PlayButton" to="." method="OnFocusEntered"]
+[connection signal="FocusLost" from="PlayButton" to="." method="OnFocusLost"]
+[connection signal="pressed" from="PlayButton" to="PlayButton" method="OnButtonPressed"]
+[connection signal="ButtonPressed" from="OptionsButton" to="." method="OnButtonPressed"]
+[connection signal="FocusEntered" from="OptionsButton" to="." method="OnFocusEntered"]
+[connection signal="FocusLost" from="OptionsButton" to="." method="OnFocusLost"]
+[connection signal="pressed" from="OptionsButton" to="OptionsButton" method="OnButtonPressed"]
+[connection signal="animation_finished" from="ButtonAnimationPlayer" to="." method="OnButtonAnimationPlayerFinished"]
