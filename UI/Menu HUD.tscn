@@ -2,14 +2,14 @@
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 [ext_resource path="res://UI/Button.cs" type="Script" id=2]
-[ext_resource path="res://assets/buttons/pressed/play-pressed.png" type="Texture" id=3]
-[ext_resource path="res://assets/buttons/red/play.png" type="Texture" id=4]
+[ext_resource path="res://assets/buttons/red/modern.png" type="Texture" id=3]
+[ext_resource path="res://assets/buttons/red/original.png" type="Texture" id=4]
 [ext_resource path="res://UI/Menu.cs" type="Script" id=5]
 [ext_resource path="res://assets/sfx/button-click.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/sfx/button-swoosh.ogg" type="AudioStream" id=7]
 [ext_resource path="res://assets/buttons/arrow.png" type="Texture" id=8]
-[ext_resource path="res://assets/buttons/red/options.png" type="Texture" id=9]
-[ext_resource path="res://assets/buttons/pressed/options-pressed.png" type="Texture" id=10]
+[ext_resource path="res://assets/buttons/pressed/original.png" type="Texture" id=9]
+[ext_resource path="res://assets/buttons/pressed/modern-pressed.png" type="Texture" id=10]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -114,6 +114,7 @@ __meta__ = {
 }
 
 [node name="Background" type="TextureRect" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 0 )
 material = SubResource( 1 )
 anchor_right = 1.0
@@ -138,7 +139,7 @@ rect_min_size = Vector2( 200, 100 )
 focus_neighbour_bottom = NodePath("../OptionsButton")
 mouse_filter = 1
 texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 3 )
+texture_pressed = ExtResource( 9 )
 expand = true
 script = ExtResource( 2 )
 __meta__ = {
@@ -174,7 +175,7 @@ margin_right = 230.0
 margin_bottom = -9.99994
 rect_min_size = Vector2( 200, 100 )
 focus_neighbour_top = NodePath("../PlayButton")
-texture_normal = ExtResource( 9 )
+texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 10 )
 expand = true
 script = ExtResource( 2 )

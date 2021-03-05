@@ -10,6 +10,8 @@ namespace LoveTester
   {
     [Export] private float delayTimer = 0.25f;
     [Export] private float attractTimer = 1f;
+    [Export] private float stopDelay = 0.25f;
+    [Export] private int maxStopCount = 3;
     [Export] private int pseudoRandomIterations = 2;
     [Export] private float musicFadeDuration = 0.25f;
     [Export] private float actionMusicVolume = -10f;
@@ -21,6 +23,7 @@ namespace LoveTester
     private bool reset;
     private bool actionTouchRelease;
     private bool touched;
+    private int stopCount;
 
     private GameState gameState;
 
@@ -35,7 +38,7 @@ namespace LoveTester
 
     private bool attractModeEnabled = true;
     private bool insertCoinClicked;
-    private bool optionButtonClicked;
+    private float stopTimer;
 
     public override async void _Ready()
     {
@@ -123,11 +126,6 @@ namespace LoveTester
             InsertCoinSound.Play();
             ChangeState(GameState.WaitingForHold);
           }
-          else if (optionButtonClicked)
-          {
-            // TODO: do options - also check fromHold
-            optionButtonClicked = false;
-          }
           else
           {
             if (!attractModeEnabled && timer < attractReenableTime)
@@ -153,29 +151,41 @@ namespace LoveTester
           if (Input.IsActionJustReleased(Global.MainButton) || actionTouchRelease)
           {
             actionTouchRelease = false;
+            stopCount = 1;
+            timer = stopDelay;
             ChangeState(GameState.Stopping);
             return;
           }
-
           if (timer > 0f) return;
           if (reset)
           {
             reset = false;
             StartMusic();
             ButtonAnimation.Play("pressed");
-            BackgroundParticles.Emitting = true;
+            if (Global.GameMode == GameMode.Modern)
+            {
+              BackgroundParticles.Emitting = true;
+            }
           }
-
-          // TODO: if enabled...
-          Camera.Call("add_stress", 0.5f);
+          if (Global.GameMode == GameMode.Modern)
+          {
+            Camera.Call("add_stress", 0.5f);
+          }
           pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
           pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
-
           timer = delayTimer; 
           break;
         case GameState.Stopping:
-          // TODO: stopping... slow to a halt over N seconds
-          ChangeState(GameState.Stopped);
+          if (timer > 0f) return;
+          pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+          pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+          // slow to a halt...
+          timer = stopDelay * ++stopCount;
+          // long enough? stop now
+          if (timer > (stopDelay * maxStopCount))
+          {
+            ChangeState(GameState.Stopped);
+          }
           break;
         case GameState.Stopped:
           ButtonAnimation.Play("idle");
@@ -226,9 +236,18 @@ namespace LoveTester
       if (!touched) actionTouchRelease = true;
     }
 
+    // ReSharper disable once UnusedMember.Global
     public void OnInsertCoinClicked()
     {
       insertCoinClicked = true;
+      Global.GameMode = GameMode.Original;
+    }
+    
+    // ReSharper disable once UnusedMember.Global
+    public void OnOptionButtonClicked()
+    {
+      insertCoinClicked = true;
+      Global.GameMode = GameMode.Modern;
     }
   }
 }

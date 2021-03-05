@@ -75,27 +75,31 @@ namespace LoveTester.UI
 
     public void PlayStoppedSound()
     {
+      if (Global.GameMode == GameMode.Original) return;
       StoppedSound.Play();
     }
 
     public void ShowParticles()
     {
-      if (particles == null) return;
-
-      if (particlesInstance == null)
+      if (Global.GameMode == GameMode.Modern)
       {
-        particlesInstance = particles.Instance() as CPUParticles2D;
-        DescriptionLabel.AddChild(particlesInstance);
-      }
+        if (particles == null) return;
 
-      if (particlesInstance == null) return;
-      
-      particlesInstance.Emitting = true;
-      foreach (var child in particlesInstance.GetChildren())
-      {
-        if (child is CPUParticles2D particles2D)
+        if (particlesInstance == null)
         {
-          particles2D.Emitting = true;
+          particlesInstance = particles.Instance() as CPUParticles2D;
+          DescriptionLabel.AddChild(particlesInstance);
+        }
+
+        if (particlesInstance == null) return;
+
+        particlesInstance.Emitting = true;
+        foreach (var child in particlesInstance.GetChildren())
+        {
+          if (child is CPUParticles2D particles2D)
+          {
+            particles2D.Emitting = true;
+          }
         }
       }
       LightAnimationPlayer.Play("selected");
