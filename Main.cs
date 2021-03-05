@@ -161,6 +161,8 @@ namespace LoveTester
             actionTouchRelease = false;
             stopCount = 1;
             timer = stopDelay;
+            ButtonAnimation.Play("idle");
+            StopMusic();
             ChangeState(GameState.Stopping);
             return;
           }
@@ -196,8 +198,6 @@ namespace LoveTester
           }
           break;
         case GameState.Stopped:
-          ButtonAnimation.Play("idle");
-          StopMusic();
           pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
           pseudoRandomItems[currentItem % pseudoRandomItems.Count].PlayStoppedSound();
           BackgroundParticles.Emitting = false;
