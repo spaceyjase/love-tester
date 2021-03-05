@@ -21,6 +21,9 @@ namespace LoveTester.UI
     private Vector2 indicatorEndPosition;
     private bool tweenCompleted;
 
+    private Texture textureNormal;
+    private Texture texturePressed;
+
     public override void _Ready()
     {
       base._Ready();
@@ -31,6 +34,9 @@ namespace LoveTester.UI
       
       indicatorTween = GetChild<Tween>(1);
       indicatorTween.Connect("tween_completed", this, nameof(OnIndicatorTweenCompleted));
+      
+      textureNormal = TextureNormal;
+      texturePressed = TexturePressed;
     }
 
     public override void _Process(float delta)
@@ -46,8 +52,9 @@ namespace LoveTester.UI
 
       if (tweenCompleted)
       { // button was 'held' to press... wait until release...
+        TextureNormal = texturePressed;
         if (!Input.IsActionJustReleased(Global.MenuButton)) return;
-        // TODO: animation? button up
+        TextureNormal = textureNormal;
         OnButtonPressed();
         return;
       }
