@@ -24,6 +24,8 @@ namespace LoveTester.UI
     private Texture textureNormal;
     private Texture texturePressed;
 
+    private AnimationPlayer animationPlayer;
+
     public override void _Ready()
     {
       base._Ready();
@@ -34,6 +36,8 @@ namespace LoveTester.UI
       
       indicatorTween = GetChild<Tween>(1);
       indicatorTween.Connect("tween_completed", this, nameof(OnIndicatorTweenCompleted));
+      
+      animationPlayer = GetChild<AnimationPlayer>(2);
       
       textureNormal = TextureNormal;
       texturePressed = TexturePressed;
@@ -47,6 +51,8 @@ namespace LoveTester.UI
       
       if (Input.IsActionJustPressed(Global.MenuButton))
       {
+        animationPlayer.Stop();
+        arrowIndicator.RectPosition = indicatorStartPosition;
         timer = 0f;
       }
 
@@ -61,6 +67,8 @@ namespace LoveTester.UI
 
       if (timer > initialTimer && Input.IsActionPressed(Global.MenuButton) && !indicatorTween.IsActive())
       {
+        animationPlayer.Stop();
+        arrowIndicator.RectPosition = indicatorStartPosition;
         indicatorTween.InterpolateProperty(arrowIndicator, "rect_position", indicatorStartPosition,
           indicatorEndPosition, holdTime);
         indicatorTween.Start();
@@ -68,6 +76,7 @@ namespace LoveTester.UI
 
       if (Input.IsActionJustReleased(Global.MenuButton))
       {
+        animationPlayer.Stop();
         StopTweening();
         EmitSignal(nameof(FocusLost), Name);
       }
@@ -97,6 +106,8 @@ namespace LoveTester.UI
       if (arrowIndicator.Visible) return;
       StopTweening();
       arrowIndicator.Visible = true;
+      animationPlayer.Seek(0);
+      animationPlayer.Play("idle");
     }
 
     private void StopTweening()
@@ -111,6 +122,7 @@ namespace LoveTester.UI
     {
       if (!arrowIndicator.Visible) return;
       arrowIndicator.Visible = false;
+      animationPlayer.Stop();
       StopTweening();
       ReleaseFocus();
     }
