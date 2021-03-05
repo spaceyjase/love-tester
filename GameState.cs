@@ -9,7 +9,7 @@
     Playing,
     Stopping,
     Stopped,
-    Finished,
-    Options
+    Finishing,
+    Finished
   }
 }

@@ -79,6 +79,7 @@ __meta__ = {
 delayTimer = 0.33
 stopDelay = 0.33
 pseudoRandomIterations = 1
+stoppedTime = 1.0
 
 [node name="BackgroundGradient" type="TextureRect" parent="."]
 anchor_right = 1.0

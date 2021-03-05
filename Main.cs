@@ -16,6 +16,7 @@ namespace LoveTester
     [Export] private float musicFadeDuration = 0.25f;
     [Export] private float actionMusicVolume = -10f;
     [Export] private float attractReenableTime = -30f;
+    [Export] private float stoppedTime = 2f;
 
     private float timer;
     private List<Row> pseudoRandomItems;
@@ -30,6 +31,7 @@ namespace LoveTester
     private CPUParticles2D BackgroundParticles => GetNode<CPUParticles2D>("BackgroundParticles");
     private AnimationPlayer ButtonAnimation => GetNode<AnimationPlayer>("ButtonAnimationPlayer");
     private Camera2D Camera => GetNode<Camera2D>("Camera2D");
+    private TextureRect BackgroundGradient => GetNode<TextureRect>(nameof(BackgroundGradient));
     private AudioStreamPlayer ActionMusic => GetNode<AudioStreamPlayer>(nameof(ActionMusic));
     private Tween FadeMusicTween => GetNode<Tween>(nameof(FadeMusicTween));
     private AnimationPlayer FadeInAnimationPlayer => GetNode<AnimationPlayer>(nameof(FadeInAnimationPlayer));
@@ -38,7 +40,6 @@ namespace LoveTester
 
     private bool attractModeEnabled = true;
     private bool insertCoinClicked;
-    private float stopTimer;
 
     public override async void _Ready()
     {
@@ -60,28 +61,21 @@ namespace LoveTester
           BackgroundParticles.Emitting = false;
           break;
         case GameState.AttractMode:
-          GD.Print("Waiting for coin...");
           GenerateLoveItems();
           break;
         case GameState.WaitingForHold:
-          GD.Print("Waiting for hold...");
           GenerateLoveItems();
           break;
         case GameState.Playing:
-          GD.Print("Playing...");
           break;
         case GameState.Stopping:
-          GD.Print("Stopping...");
           break;
         case GameState.Stopped:
-          GD.Print("Stopped...");
+          break;
+        case GameState.Finishing:
           break;
         case GameState.Finished:
-          GD.Print("Finished... ");
           attractModeEnabled = false;
-          break;
-        case GameState.Options:
-          GD.Print("Display options");
           break;
         default:
           throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -103,7 +97,7 @@ namespace LoveTester
       reset = true;
     }
 
-    public override void _Process(float delta)
+    public override async void _Process(float delta)
     {
       base._Process(delta);
       
@@ -121,6 +115,7 @@ namespace LoveTester
           if (insertCoinClicked)
           {
             insertCoinClicked = false;
+            BackgroundGradient.Visible = Global.GameMode == GameMode.Modern;
             ResetLights();
             Menu.Conceal();
             InsertCoinSound.Play();
@@ -193,12 +188,14 @@ namespace LoveTester
           pseudoRandomItems[currentItem % pseudoRandomItems.Count].ShowParticles();
           pseudoRandomItems[currentItem % pseudoRandomItems.Count].PlayStoppedSound();
           BackgroundParticles.Emitting = false;
+          ChangeState(GameState.Finishing);
+          break;
+        case GameState.Finishing:
+          await ToSignal(GetTree().CreateTimer(stoppedTime), "timeout");
           ChangeState(GameState.Finished);
           break;
         case GameState.Finished:
           ChangeState(GameState.Default);
-          break;
-        case GameState.Options:
           break;
         default:
           throw new ArgumentOutOfRangeException();
