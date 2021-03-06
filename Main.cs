@@ -153,6 +153,7 @@ namespace LoveTester
           break;
         case GameState.WaitingForHold:
           if (!Input.IsActionPressed(Global.MainButton) && !touched) return;
+          actionTouchRelease = false;
           ChangeState(GameState.Playing);
           break;
         case GameState.Playing:
