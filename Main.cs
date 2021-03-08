@@ -163,7 +163,6 @@ namespace LoveTester
             stopCount = 1;
             timer = stopDelay;
             ButtonAnimation.Play("idle");
-            StopMusic();
             ChangeState(GameState.Stopping);
             return;
           }
