@@ -122,8 +122,9 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-delayTimer = 0.33
-stopDelay = 0.33
+delayTimer = 0.25
+stopDelay = 0.18
+maxStopCount = 6
 pseudoRandomIterations = 1
 stoppedTime = 1.0
 
