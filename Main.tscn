@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/love_tester.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/sfx/coin.ogg" type="AudioStream" id=11]
 [ext_resource path="res://assets/Kenney Thick.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://assets/sfx/button-swoosh.ogg" type="AudioStream" id=13]
+[ext_resource path="res://UI/Insert Coin.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.516892, 0.810811 )
@@ -217,6 +218,8 @@ stream = ExtResource( 11 )
 [node name="FadeMusicTween" type="Tween" parent="."]
 
 [node name="Menu" parent="." instance=ExtResource( 10 )]
+
+[node name="Insert Coin Menu" parent="." instance=ExtResource( 14 )]
 
 [node name="InstructionsAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )

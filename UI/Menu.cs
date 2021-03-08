@@ -15,7 +15,7 @@ public class Menu : Control
   private AudioStreamPlayer2D ButtonClick => GetNode<AudioStreamPlayer2D>(nameof(ButtonClick));
   private AnimationPlayer ButtonAnimationPlayer => GetNode<AnimationPlayer>(nameof(ButtonAnimationPlayer));
   
-  private bool displayed = true; // displayed by default, i.e. when Ready
+  private bool displayed; // off by default, i.e. when Ready
 
   private List<LoveTester.UI.Button> menuButtons;
   private int currentButton;
