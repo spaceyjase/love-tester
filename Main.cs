@@ -15,6 +15,7 @@ namespace LoveTester
     [Export] private int pseudoRandomIterations = 2;
     [Export] private float musicFadeDuration = 0.25f;
     [Export] private float actionMusicVolume = -10f;
+    [Export] private bool attractModeEnabled = true;
     [Export] private float attractReenableTime = -30f;
     [Export] private float stoppedTime = 2f;
 
@@ -40,7 +41,6 @@ namespace LoveTester
     private AudioStreamPlayer BackgroundSound => GetNode<AudioStreamPlayer>(nameof(BackgroundSound));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
-    private bool attractModeEnabled = true;
     private bool insertCoinClicked;
     private bool instructionsShown;
 
