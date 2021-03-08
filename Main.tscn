@@ -126,6 +126,7 @@ delayTimer = 0.25
 stopDelay = 0.2
 maxStopCount = 6
 pseudoRandomIterations = 1
+attractReenableTime = -1440.0
 stoppedTime = 1.0
 
 [node name="BackgroundGradient" type="TextureRect" parent="."]
