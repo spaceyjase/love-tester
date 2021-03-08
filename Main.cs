@@ -40,9 +40,12 @@ namespace LoveTester
     private AudioStreamPlayer InsertCoinSound => GetNode<AudioStreamPlayer>(nameof(InsertCoinSound));
     private AudioStreamPlayer BackgroundSound => GetNode<AudioStreamPlayer>(nameof(BackgroundSound));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
+    private Menu InsertCoinMenu => GetNode<Menu>(nameof(InsertCoinMenu));
 
     private bool insertCoinClicked;
     private bool instructionsShown;
+    private bool first = true; 
+    private bool escaped;
 
     public override async void _Ready()
     {
@@ -122,35 +125,55 @@ namespace LoveTester
         case GameState.None:
           return;
         case GameState.Default:
-          Menu.Display();
+          if (first)
+          {
+            Menu.Display();
+          }
+          else
+          {
+            InsertCoinMenu.Display();
+          }
           ChangeState(GameState.AttractMode);
           break;
         case GameState.AttractMode:
+          var menu = first ? Menu : InsertCoinMenu;
           if (insertCoinClicked)
           {
+            menu.Conceal();
+            first = false;
             insertCoinClicked = false;
             BackgroundGradient.Visible = Global.GameMode == GameMode.Modern;
             ResetLights();
-            Menu.Conceal();
             InsertCoinSound.Play();
             ChangeState(GameState.WaitingForHold);
           }
           else
           {
-            if (!attractModeEnabled && timer < attractReenableTime)
-            {
-              attractModeEnabled = true;
-              ResetLights();
+            if (escaped)
+            { // go back to the main menu
+              menu.Conceal();
+              first = true;
+              escaped = false;
+              ChangeState(GameState.Finished);
             }
-
-            if (attractModeEnabled)
+            else
             {
-              if (timer > 0f) return;
-              pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
-              pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
-              timer = attractTimer;
+              if (!attractModeEnabled && timer < attractReenableTime)
+              {
+                attractModeEnabled = true;
+                ResetLights();
+              }
+
+              if (attractModeEnabled)
+              {
+                if (timer > 0f) return;
+                pseudoRandomItems[currentItem++ % pseudoRandomItems.Count].Off();
+                pseudoRandomItems[currentItem % pseudoRandomItems.Count].On();
+                timer = attractTimer;
+              }
             }
           }
+
           break;
         case GameState.WaitingForHold:
           if (!Input.IsActionPressed(Global.MainButton) && !touched) return;
@@ -249,7 +272,7 @@ namespace LoveTester
     }
 
     // ReSharper disable once UnusedMember.Global
-    public void OnButtonClicked(string buttonName)
+    private void OnButtonClicked(string buttonName)
     {
       switch (buttonName)
       {
@@ -265,6 +288,15 @@ namespace LoveTester
           break;
       }
       insertCoinClicked = true;
+    }
+
+    // ReSharper disable once UnusedMember.Local
+    private void OnMenuBack(string menuName)
+    {
+      if (menuName == "InsertCoinMenu")
+      {
+        escaped = true;
+      }
     }
   }
 }

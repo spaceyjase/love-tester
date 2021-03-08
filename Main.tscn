@@ -219,7 +219,8 @@ stream = ExtResource( 11 )
 
 [node name="Menu" parent="." instance=ExtResource( 10 )]
 
-[node name="Insert Coin Menu" parent="." instance=ExtResource( 14 )]
+[node name="InsertCoinMenu" parent="." instance=ExtResource( 14 )]
+visible = false
 
 [node name="InstructionsAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )
@@ -248,3 +249,5 @@ __meta__ = {
 [node name="InstructionsAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/instructions = SubResource( 7 )
 [connection signal="OnButtonClicked" from="Menu" to="." method="OnButtonClicked"]
+[connection signal="MenuBack" from="InsertCoinMenu" to="." method="OnMenuBack"]
+[connection signal="OnButtonClicked" from="InsertCoinMenu" to="." method="OnButtonClicked"]

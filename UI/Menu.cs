@@ -1,14 +1,12 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Button = LoveTester.UI.Button;
 
 public class Menu : Control
 {
   [Signal] private delegate void Shown();
   [Signal] private delegate void Hidden();
   [Signal] private delegate void OnButtonClicked(string buttonName);
+  [Signal] private delegate void MenuBack(string menuName);
 
   [Export] private string[] buttonNames;
 
@@ -29,6 +27,13 @@ public class Menu : Control
     {
       menuButtons.Add(GetNode<LoveTester.UI.Button>(buttonName));
     }
+  }
+  
+  public override void _Input(InputEvent @event)
+  {
+    base._Input(@event);
+    if (!(@event is InputEventKey)) return;
+    if (@event.IsActionReleased(Global.MenuEscapeButton)) EmitSignal(nameof(MenuBack), Name);
   }
 
   public override void _Process(float delta)
@@ -52,6 +57,7 @@ public class Menu : Control
   public async void Display()
   {
     if (displayed) return;
+    Visible = true;
     currentButton = 0;
     ButtonAnimationPlayer.Play("play_slide_in");
     await ToSignal(this, nameof(Shown));
@@ -64,15 +70,18 @@ public class Menu : Control
     ButtonAnimationPlayer.Play("play_slide_out");
     await ToSignal(this, nameof(Hidden));
     displayed = false;
+    Visible = false;
     menuButtons.ForEach(b => b.RemoveFocus());
   }
 
-  public void OnButtonPressed(string name)
+  // ReSharper disable once UnusedMember.Global
+  private void OnButtonPressed(string name)
   {
     ButtonClick.Play();
     EmitSignal(nameof(OnButtonClicked), name);
   }
 
+  // ReSharper disable once UnusedMember.Local
   private void OnFocusEntered(string name)
   {
     for (var n = 0; n < menuButtons.Count; ++n)
