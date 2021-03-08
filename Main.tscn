@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/love_tester.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/sfx/coin.ogg" type="AudioStream" id=11]
 [ext_resource path="res://assets/Kenney Thick.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://assets/sfx/button-swoosh.ogg" type="AudioStream" id=13]
+[ext_resource path="res://UI/Insert Coin.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.516892, 0.810811 )
@@ -122,7 +123,6 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-delayTimer = 0.25
 stopDelay = 0.2
 maxStopCount = 6
 pseudoRandomIterations = 1
@@ -219,6 +219,9 @@ stream = ExtResource( 11 )
 
 [node name="Menu" parent="." instance=ExtResource( 10 )]
 
+[node name="InsertCoinMenu" parent="." instance=ExtResource( 14 )]
+visible = false
+
 [node name="InstructionsAudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )
 volume_db = -5.0
@@ -245,5 +248,6 @@ __meta__ = {
 
 [node name="InstructionsAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/instructions = SubResource( 7 )
-[connection signal="OptionButtonClicked" from="Menu" to="." method="OnOptionButtonClicked"]
-[connection signal="PlayButtonClicked" from="Menu" to="." method="OnInsertCoinClicked"]
+[connection signal="OnButtonClicked" from="Menu" to="." method="OnButtonClicked"]
+[connection signal="MenuBack" from="InsertCoinMenu" to="." method="OnMenuBack"]
+[connection signal="OnButtonClicked" from="InsertCoinMenu" to="." method="OnButtonClicked"]

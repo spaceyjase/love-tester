@@ -142,9 +142,10 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+buttonNames = PoolStringArray( "PlayButton", "OptionsButton" )
 
 [node name="Background" type="TextureRect" parent="."]
-modulate = Color( 0, 0, 0, 0.25098 )
+modulate = Color( 0, 0, 0, 0 )
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -241,7 +242,6 @@ autoplay = "idle"
 anims/idle = SubResource( 3 )
 
 [node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "play_slide_in"
 anims/play_slide_in = SubResource( 4 )
 anims/play_slide_out = SubResource( 5 )
 
