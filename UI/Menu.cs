@@ -1,43 +1,51 @@
 using Godot;
-using System;
-using System.Linq;
+using System.Collections.Generic;
 
 public class Menu : Control
 {
   [Signal] private delegate void Shown();
   [Signal] private delegate void Hidden();
-  [Signal] private delegate void PlayButtonClicked();
-  [Signal] private delegate void OptionButtonClicked();
+  [Signal] private delegate void OnButtonClicked(string buttonName);
+  [Signal] private delegate void MenuBack(string menuName);
+
+  [Export] private string[] buttonNames;
 
   private AudioStreamPlayer2D ButtonClick => GetNode<AudioStreamPlayer2D>(nameof(ButtonClick));
   private AnimationPlayer ButtonAnimationPlayer => GetNode<AnimationPlayer>(nameof(ButtonAnimationPlayer));
   
-  private bool displayed = true; // displayed by default, i.e. when Ready
+  private bool displayed; // off by default, i.e. when Ready
 
-  private LoveTester.UI.Button[] menuButtons;
+  private List<LoveTester.UI.Button> menuButtons;
   private int currentButton;
 
   public override void _Ready()
   {
     base._Ready();
 
-    menuButtons = new[]
+    menuButtons = new List<LoveTester.UI.Button>();
+    foreach (var buttonName in buttonNames)
     {
-      GetNode<LoveTester.UI.Button>("PlayButton"),
-      GetNode<LoveTester.UI.Button>("OptionsButton")
-    };
+      menuButtons.Add(GetNode<LoveTester.UI.Button>(buttonName));
+    }
+  }
+  
+  public override void _Input(InputEvent @event)
+  {
+    base._Input(@event);
+    if (!(@event is InputEventKey)) return;
+    if (@event.IsActionReleased(Global.MenuEscapeButton)) EmitSignal(nameof(MenuBack), Name);
   }
 
   public override void _Process(float delta)
   {
     if (!displayed) return;
     
-    menuButtons[currentButton % menuButtons.Length].SetFocus();
+    menuButtons[currentButton % menuButtons.Count].SetFocus();
   }
 
   private void OnFocusLost(string buttonName)
   {
-    menuButtons[currentButton++ % menuButtons.Length].RemoveFocus();
+    menuButtons[currentButton++ % menuButtons.Count].RemoveFocus();
   }
 
   private void OnButtonAnimationPlayerFinished(string name)
@@ -49,6 +57,7 @@ public class Menu : Control
   public async void Display()
   {
     if (displayed) return;
+    Visible = true;
     currentButton = 0;
     ButtonAnimationPlayer.Play("play_slide_in");
     await ToSignal(this, nameof(Shown));
@@ -61,31 +70,21 @@ public class Menu : Control
     ButtonAnimationPlayer.Play("play_slide_out");
     await ToSignal(this, nameof(Hidden));
     displayed = false;
-    Array.ForEach(menuButtons, b => b.RemoveFocus());
+    Visible = false;
+    menuButtons.ForEach(b => b.RemoveFocus());
   }
 
-  public void OnButtonPressed(string name)
+  // ReSharper disable once UnusedMember.Global
+  private void OnButtonPressed(string name)
   {
     ButtonClick.Play();
-    
-    var signal = string.Empty;
-    switch (name)
-    {
-      case "PlayButton":
-        signal = nameof(PlayButtonClicked);
-        break;
-      case "OptionsButton":
-        signal = nameof(OptionButtonClicked);
-        break;
-      default:
-        return;
-    }
-    EmitSignal(signal);
+    EmitSignal(nameof(OnButtonClicked), name);
   }
 
+  // ReSharper disable once UnusedMember.Local
   private void OnFocusEntered(string name)
   {
-    for (var n = 0; n < menuButtons.Length; ++n)
+    for (var n = 0; n < menuButtons.Count; ++n)
     {
       menuButtons[n].RemoveFocus();
       if (menuButtons[n].Name == name) currentButton = n;
