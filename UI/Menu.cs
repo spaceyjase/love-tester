@@ -1,43 +1,46 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Button = LoveTester.UI.Button;
 
 public class Menu : Control
 {
   [Signal] private delegate void Shown();
   [Signal] private delegate void Hidden();
-  [Signal] private delegate void PlayButtonClicked();
-  [Signal] private delegate void OptionButtonClicked();
+  [Signal] private delegate void OnButtonClicked(string buttonName);
+
+  [Export] private string[] buttonNames;
 
   private AudioStreamPlayer2D ButtonClick => GetNode<AudioStreamPlayer2D>(nameof(ButtonClick));
   private AnimationPlayer ButtonAnimationPlayer => GetNode<AnimationPlayer>(nameof(ButtonAnimationPlayer));
   
   private bool displayed = true; // displayed by default, i.e. when Ready
 
-  private LoveTester.UI.Button[] menuButtons;
+  private List<LoveTester.UI.Button> menuButtons;
   private int currentButton;
 
   public override void _Ready()
   {
     base._Ready();
 
-    menuButtons = new[]
+    menuButtons = new List<LoveTester.UI.Button>();
+    foreach (var buttonName in buttonNames)
     {
-      GetNode<LoveTester.UI.Button>("PlayButton"),
-      GetNode<LoveTester.UI.Button>("OptionsButton")
-    };
+      menuButtons.Add(GetNode<LoveTester.UI.Button>(buttonName));
+    }
   }
 
   public override void _Process(float delta)
   {
     if (!displayed) return;
     
-    menuButtons[currentButton % menuButtons.Length].SetFocus();
+    menuButtons[currentButton % menuButtons.Count].SetFocus();
   }
 
   private void OnFocusLost(string buttonName)
   {
-    menuButtons[currentButton++ % menuButtons.Length].RemoveFocus();
+    menuButtons[currentButton++ % menuButtons.Count].RemoveFocus();
   }
 
   private void OnButtonAnimationPlayerFinished(string name)
@@ -61,31 +64,18 @@ public class Menu : Control
     ButtonAnimationPlayer.Play("play_slide_out");
     await ToSignal(this, nameof(Hidden));
     displayed = false;
-    Array.ForEach(menuButtons, b => b.RemoveFocus());
+    menuButtons.ForEach(b => b.RemoveFocus());
   }
 
   public void OnButtonPressed(string name)
   {
     ButtonClick.Play();
-    
-    var signal = string.Empty;
-    switch (name)
-    {
-      case "PlayButton":
-        signal = nameof(PlayButtonClicked);
-        break;
-      case "OptionsButton":
-        signal = nameof(OptionButtonClicked);
-        break;
-      default:
-        return;
-    }
-    EmitSignal(signal);
+    EmitSignal(nameof(OnButtonClicked), name);
   }
 
   private void OnFocusEntered(string name)
   {
-    for (var n = 0; n < menuButtons.Length; ++n)
+    for (var n = 0; n < menuButtons.Count; ++n)
     {
       menuButtons[n].RemoveFocus();
       if (menuButtons[n].Name == name) currentButton = n;

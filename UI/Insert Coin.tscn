@@ -1,0 +1,179 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/sfx/button-swoosh.ogg" type="AudioStream" id=1]
+[ext_resource path="res://assets/buttons/arrow.png" type="Texture" id=2]
+[ext_resource path="res://assets/buttons/red/insert-coin.png" type="Texture" id=3]
+[ext_resource path="res://assets/buttons/pressed/insert-coin-pressed.png" type="Texture" id=4]
+[ext_resource path="res://assets/white.png" type="Texture" id=5]
+[ext_resource path="res://assets/sfx/button-click.ogg" type="AudioStream" id=8]
+[ext_resource path="res://UI/Button.cs" type="Script" id=9]
+[ext_resource path="res://UI/Menu.cs" type="Script" id=10]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -50, 10 ), Vector2( -20, 10 ), Vector2( -50, 10 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("InsertCoinButton:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 630, 690 ), Vector2( 380, 690 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ButtonSlide:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 0.5 ),
+"transitions": PoolRealArray( 0, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Background:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.45098 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("InsertCoinButton:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.06, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 380, 690 ), Vector2( 630, 690 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Background:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.45098 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[node name="Insert Coin Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+buttonNames = PoolStringArray( "InsertCoinButton" )
+
+[node name="Background" type="TextureRect" parent="."]
+visible = false
+modulate = Color( 0, 0, 0, 0.25098 )
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InsertCoinButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = -110.0
+margin_right = 230.0
+margin_bottom = -9.99994
+rect_min_size = Vector2( 200, 100 )
+focus_neighbour_top = NodePath("../PlayButton")
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+expand = true
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+destinationOffset = 25.0
+holdTime = 0.75
+
+[node name="Arrow" type="TextureRect" parent="InsertCoinButton"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -40.0
+margin_right = -20.0
+margin_bottom = 40.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IndicatorTween" type="Tween" parent="InsertCoinButton"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InsertCoinButton"]
+autoplay = "idle"
+anims/idle = SubResource( 3 )
+
+[node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "play_slide_in"
+anims/play_slide_in = SubResource( 4 )
+anims/play_slide_out = SubResource( 5 )
+
+[node name="ButtonClick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+volume_db = -5.0
+pitch_scale = 1.1
+attenuation = 0.307786
+
+[node name="ButtonSlide" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+volume_db = -5.0
+attenuation = 0.0291573
+[connection signal="ButtonPressed" from="InsertCoinButton" to="." method="OnButtonPressed"]
+[connection signal="FocusEntered" from="InsertCoinButton" to="." method="OnFocusEntered"]
+[connection signal="FocusLost" from="InsertCoinButton" to="." method="OnFocusLost"]
+[connection signal="pressed" from="InsertCoinButton" to="InsertCoinButton" method="OnButtonPressed"]
+[connection signal="animation_finished" from="ButtonAnimationPlayer" to="." method="OnButtonAnimationPlayerFinished"]

@@ -122,7 +122,6 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-delayTimer = 0.25
 stopDelay = 0.2
 maxStopCount = 6
 pseudoRandomIterations = 1
@@ -245,5 +244,4 @@ __meta__ = {
 
 [node name="InstructionsAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/instructions = SubResource( 7 )
-[connection signal="OptionButtonClicked" from="Menu" to="." method="OnOptionButtonClicked"]
-[connection signal="PlayButtonClicked" from="Menu" to="." method="OnInsertCoinClicked"]
+[connection signal="OnButtonClicked" from="Menu" to="." method="OnButtonClicked"]

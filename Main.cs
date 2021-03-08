@@ -249,19 +249,22 @@ namespace LoveTester
     }
 
     // ReSharper disable once UnusedMember.Global
-    public void OnInsertCoinClicked()
+    public void OnButtonClicked(string buttonName)
     {
+      switch (buttonName)
+      {
+        case "PlayButton":
+          Global.GameMode = GameMode.Original;
+          BackgroundSound.Stop();
+          break;
+        case "OptionsButton":
+          Global.GameMode = GameMode.Modern;
+          BackgroundSound.Play();
+          break;
+        case "InsertCoinButton":
+          break;
+      }
       insertCoinClicked = true;
-      Global.GameMode = GameMode.Original;
-      BackgroundSound.Stop();
-    }
-    
-    // ReSharper disable once UnusedMember.Global
-    public void OnOptionButtonClicked()
-    {
-      insertCoinClicked = true;
-      Global.GameMode = GameMode.Modern;
-      BackgroundSound.Play();
     }
   }
 }
