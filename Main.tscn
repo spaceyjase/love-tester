@@ -123,7 +123,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 delayTimer = 0.25
-stopDelay = 0.18
+stopDelay = 0.2
 maxStopCount = 6
 pseudoRandomIterations = 1
 stoppedTime = 1.0
@@ -205,7 +205,6 @@ anims/pressed = SubResource( 5 )
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -25.0
-autoplay = true
 
 [node name="ActionMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )

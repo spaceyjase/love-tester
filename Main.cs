@@ -37,6 +37,7 @@ namespace LoveTester
     private AnimationPlayer FadeInAnimationPlayer => GetNode<AnimationPlayer>(nameof(FadeInAnimationPlayer));
     private AnimationPlayer InstructionsAnimationPlayer => GetNode<AnimationPlayer>(nameof(InstructionsAnimationPlayer));
     private AudioStreamPlayer InsertCoinSound => GetNode<AudioStreamPlayer>(nameof(InsertCoinSound));
+    private AudioStreamPlayer BackgroundSound => GetNode<AudioStreamPlayer>(nameof(BackgroundSound));
     private Menu Menu => GetNode<Menu>(nameof(Menu));
 
     private bool attractModeEnabled = true;
@@ -252,6 +253,7 @@ namespace LoveTester
     {
       insertCoinClicked = true;
       Global.GameMode = GameMode.Original;
+      BackgroundSound.Stop();
     }
     
     // ReSharper disable once UnusedMember.Global
@@ -259,6 +261,7 @@ namespace LoveTester
     {
       insertCoinClicked = true;
       Global.GameMode = GameMode.Modern;
+      BackgroundSound.Play();
     }
   }
 }
