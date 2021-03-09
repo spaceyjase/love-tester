@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using Godot;
 using LoveTester.UI;
@@ -46,6 +47,7 @@ namespace LoveTester
     private bool instructionsShown;
     private bool first = true; 
     private bool escaped;
+    private bool fullscreen;
 
     public override async void _Ready()
     {
@@ -266,9 +268,16 @@ namespace LoveTester
     public override void _Input(InputEvent @event)
     {
       base._Input(@event);
-      if (!(@event is InputEventScreenTouch)) return;
-      touched = @event.IsPressed();
-      if (!touched) actionTouchRelease = true;
+      if (@event is InputEventScreenTouch touchEvent)
+      {
+        touched = @event.IsPressed();
+        if (!touched) actionTouchRelease = true;
+      }
+      else if (@event.IsActionReleased(Global.Fullscreen))
+      {
+        fullscreen = !fullscreen;
+        OS.WindowFullscreen = fullscreen;
+      }
     }
 
     // ReSharper disable once UnusedMember.Global

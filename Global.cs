@@ -16,6 +16,7 @@ public class Global : Node
   public static readonly string MainButton = "main_button";
   public static readonly string MenuButton = "menu_button";
   public static readonly string MenuEscapeButton = "menu_escape";
+  public static readonly string Fullscreen = "fullscreen";
 
   public override void _Ready()
   {
