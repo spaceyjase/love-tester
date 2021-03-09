@@ -32,6 +32,9 @@ public class Menu : Control
   public override void _Input(InputEvent @event)
   {
     base._Input(@event);
+
+    if (!displayed) return;
+    
     if (!(@event is InputEventKey)) return;
     if (@event.IsActionReleased(Global.MenuEscapeButton)) EmitSignal(nameof(MenuBack), Name);
   }
